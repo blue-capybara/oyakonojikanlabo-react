@@ -4,6 +4,7 @@ import { Home } from '@/pages/Home';
 import { Events } from '@/pages/Events';
 import { EventDetail } from '@/pages/EventDetail';
 import { ArticleDetail } from '@/pages/ArticleDetail';
+import { ArticleArchive } from '@/pages/ArticleArchive';
 import { Pico } from '@/pages/Pico';
 import { ProductDetail } from '@/pages/ProductDetail';
 import { CompanyProfile } from '@/pages/CompanyProfile';
@@ -18,6 +19,7 @@ export const Router: React.FC = () => {
         <Route path="/" element={<Home />} />
         <Route path="/events" element={<Events />} />
         <Route path="/events/:id" element={<EventDetail />} />
+        <Route path="/articles" element={<ArticleArchive />} />
         <Route path="/articles/:id" element={<ArticleDetail />} />
         <Route path="/pico" element={<PicoTop />} />
         <Route path="/shop/:id" element={<ProductDetail />} />

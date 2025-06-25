@@ -3,6 +3,7 @@ import { fetchGraphQL } from '@/lib/graphql';
 import { GET_LATEST_POSTS } from '@/lib/queries/getLatestPosts';
 import { DefaultLayout } from '@/layouts/DefaultLayout';
 import { ArticleCard } from '@/components/ui/ArticleCard';
+import { Link } from 'react-router-dom';
 
 interface Tag {
   name: string;
@@ -279,12 +280,12 @@ export const Home: React.FC = () => {
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-3xl font-bold">記事一覧</h2>
-            <a href="#" className="text-primary font-medium flex items-center">
+            <Link to="/articles" className="text-primary font-medium flex items-center">
               すべて見る
               <div className="w-5 h-5 flex items-center justify-center ml-1">
                 <i className="ri-arrow-right-line"></i>
               </div>
-            </a>
+            </Link>
           </div>
 
           {loading ? (
