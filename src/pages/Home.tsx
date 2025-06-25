@@ -4,6 +4,11 @@ import { GET_LATEST_POSTS } from '../lib/queries/getLatestPosts';
 import { DefaultLayout } from '../layouts/DefaultLayout';
 import { ArticleCard } from '../components/ui/ArticleCard';
 
+interface Tag {
+  name: string;
+  slug: string;
+}
+
 interface Post {
   id: string;
   title: string;
@@ -15,6 +20,9 @@ interface Post {
       sourceUrl: string;
       altText: string;
     }
+  };
+  tags: {
+    nodes: Tag[];
   };
   categories: {
     nodes: Array<{
@@ -44,17 +52,26 @@ export const Home: React.FC = () => {
         const data = await fetchGraphQL(GET_LATEST_POSTS);
         
         if (data && data.posts && data.posts.nodes) {
-          const formattedArticles = data.posts.nodes.map((post: Post) => ({
-            id: post.id,
-            title: post.title,
-            date: new Date(post.date).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' }),
-            description: post.excerpt.replace(/<[^>]*>/g, ''), // Remove HTML tags
-            image: post.featuredImage?.node?.sourceUrl || 'https://readdy.ai/api/search-image?query=A%20cozy%20reading%20corner%20with%20bookshelves%20filled%20with%20childrens%20books%2C%20comfortable%20seating%2C%20and%20soft%20lighting.%20The%20space%20should%20look%20inviting%20and%20perfect%20for%20parent-child%20reading%20time.&width=400&height=250&seq=5&orientation=landscape',
-            category: { 
-              name: post.categories?.nodes[0]?.name || 'コラム', 
-              color: getCategoryColor(post.categories?.nodes[0]?.name) 
-            },
-          }));
+          const formattedArticles = data.posts.nodes.map((post: Post) => {
+            // Format tags for display
+            const tags = post.tags?.nodes.map(tag => ({
+              name: tag.name,
+              color: getTagColor(tag.slug)
+            })) || [];
+
+            return {
+              id: post.id,
+              title: post.title,
+              date: new Date(post.date).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' }),
+              description: post.excerpt.replace(/<[^>]*>/g, ''), // Remove HTML tags
+              image: post.featuredImage?.node?.sourceUrl || 'https://readdy.ai/api/search-image?query=A%20cozy%20reading%20corner%20with%20bookshelves%20filled%20with%20childrens%20books%2C%20comfortable%20seating%2C%20and%20soft%20lighting.%20The%20space%20should%20look%20inviting%20and%20perfect%20for%20parent-child%20reading%20time.&width=400&height=250&seq=5&orientation=landscape',
+              category: { 
+                name: post.categories?.nodes[0]?.name || 'コラム', 
+                color: getCategoryColor(post.categories?.nodes[0]?.name) 
+              },
+              tags: tags
+            };
+          });
           
           setArticles(formattedArticles);
         }
@@ -110,6 +127,34 @@ export const Home: React.FC = () => {
     };
     
     return categoryColors[categoryName] || 'blue';
+  };
+
+  // Helper function to determine tag color based on slug
+  const getTagColor = (tagSlug: string | undefined): string => {
+    if (!tagSlug) return 'gray';
+    
+    // Assign colors based on tag slug or use a hash function to generate consistent colors
+    const tagColors: Record<string, string> = {
+      'feature': 'yellow',
+      'interview': 'purple',
+      'review': 'green',
+      'event': 'red',
+      'column': 'blue',
+      'new': 'pink',
+      'recommended': 'indigo',
+      'popular': 'orange',
+      'seasonal': 'teal',
+    };
+    
+    // Return the color if it exists in the map, otherwise use a hash function
+    if (tagColors[tagSlug]) {
+      return tagColors[tagSlug];
+    }
+    
+    // Simple hash function to generate consistent colors for tags
+    const hash = tagSlug.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    const colors = ['red', 'orange', 'yellow', 'green', 'teal', 'blue', 'indigo', 'purple', 'pink'];
+    return colors[hash % colors.length];
   };
 
   const handleSubmit = (e: React.FormEvent) => {

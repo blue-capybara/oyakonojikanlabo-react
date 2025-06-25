@@ -14,6 +14,12 @@ export const GET_LATEST_POSTS = `
             altText
           }
         }
+        tags {
+          nodes {
+            name
+            slug
+          }
+        }
         categories {
           nodes {
             name
