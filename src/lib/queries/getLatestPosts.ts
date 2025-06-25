@@ -4,6 +4,7 @@ export const GET_LATEST_POSTS = `
     posts(first: 3) {
       nodes {
         id
+        databaseId
         title
         date
         excerpt

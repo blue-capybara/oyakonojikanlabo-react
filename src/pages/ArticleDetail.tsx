@@ -11,6 +11,7 @@ interface Tag {
 
 interface ArticleData {
   id: string;
+  databaseId: number;
   title: string;
   date: string;
   content: string;
@@ -52,7 +53,9 @@ export const ArticleDetail: React.FC = () => {
     const fetchArticle = async () => {
       try {
         setLoading(true);
+        console.log("Fetching article with ID:", id);
         const data = await fetchGraphQL(GET_ARTICLE_BY_ID, { id });
+        console.log("GraphQL response:", data);
         
         if (data && data.post) {
           setArticle(data.post);
@@ -85,6 +88,8 @@ export const ArticleDetail: React.FC = () => {
               category: { name: 'コラム', color: 'purple' }
             }
           ]);
+        } else {
+          setError('記事データが見つかりませんでした。');
         }
       } catch (err) {
         console.error('Error fetching article:', err);
@@ -176,16 +181,19 @@ export const ArticleDetail: React.FC = () => {
             </Link>
           </div>
           <div className="flex flex-wrap gap-2 mb-4">
-            {article.categories.nodes.map((category, index) => (
+            {article.categories?.nodes?.map((category, index) => (
               <span key={`cat-${index}`} className="inline-block bg-blue-100 text-blue-800 px-3 py-1 text-xs rounded-full">
                 {category.name}
               </span>
             ))}
-            {article.tags.nodes.map((tag, index) => (
-              <span key={`tag-${index}`} className={`inline-block bg-${getTagColor(tag.slug)}-100 text-${getTagColor(tag.slug)}-800 px-3 py-1 text-xs rounded-full`}>
-                {tag.name}
-              </span>
-            ))}
+            {article.tags?.nodes?.map((tag, index) => {
+              const color = getTagColor(tag.slug);
+              return (
+                <span key={`tag-${index}`} className={`inline-block bg-${color}-100 text-${color}-800 px-3 py-1 text-xs rounded-full`}>
+                  {tag.name}
+                </span>
+              );
+            })}
           </div>
           <h1 className="text-3xl md:text-4xl font-bold mb-6">{article.title}</h1>
           <div className="flex items-center mb-8">
