@@ -1,7 +1,7 @@
 // src/lib/queries/getArticleById.ts
 export const GET_ARTICLE_BY_ID = `
   query GetArticleById($id: ID!) {
-    post(id: $id, idType: SLUG) {
+    post(id: $id, idType: ID) {
       id
       databaseId
       title

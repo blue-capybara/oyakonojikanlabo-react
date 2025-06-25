@@ -54,6 +54,9 @@ export const ArticleDetail: React.FC = () => {
       try {
         setLoading(true);
         console.log("Fetching article with ID:", id);
+        
+        // WordPressのGraphQLはBase64エンコードされたIDを使用
+        // IDタイプをIDに設定し、そのままIDを渡す
         const data = await fetchGraphQL(GET_ARTICLE_BY_ID, { id });
         console.log("GraphQL response:", data);
         
