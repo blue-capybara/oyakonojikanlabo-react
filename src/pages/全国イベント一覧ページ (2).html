@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>イベント情報 | 親子の時間研究所</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#c41e1e',secondary:'#f9d423'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Noto Sans JP', sans-serif;
+color: #333;
+}
+.calendar-day {
+width: 40px;
+height: 40px;
+}
+.calendar-day.has-event::after {
+content: '';
+display: block;
+width: 4px;
+height: 4px;
+background-color: #c41e1e;
+border-radius: 50%;
+position: absolute;
+bottom: 4px;
+left: 50%;
+transform: translateX(-50%);
+}
+input:focus {
+outline: none;
+}
+.custom-checkbox {
+position: relative;
+padding-left: 28px;
+cursor: pointer;
+}
+.custom-checkbox input {
+position: absolute;
+opacity: 0;
+cursor: pointer;
+height: 0;
+width: 0;
+}
+.checkmark {
+position: absolute;
+top: 0;
+left: 0;
+height: 20px;
+width: 20px;
+background-color: #fff;
+border: 1px solid #ddd;
+border-radius: 4px;
+}
+.custom-checkbox:hover input ~ .checkmark {
+background-color: #f9f9f9;
+}
+.custom-checkbox input:checked ~ .checkmark {
+background-color: #c41e1e;
+border-color: #c41e1e;
+}
+.checkmark:after {
+content: "";
+position: absolute;
+display: none;
+}
+.custom-checkbox input:checked ~ .checkmark:after {
+display: block;
+}
+.custom-checkbox .checkmark:after {
+left: 7px;
+top: 3px;
+width: 6px;
+height: 10px;
+border: solid white;
+border-width: 0 2px 2px 0;
+transform: rotate(45deg);
+}
+.custom-switch {
+position: relative;
+display: inline-block;
+width: 50px;
+height: 24px;
+}
+.custom-switch input {
+opacity: 0;
+width: 0;
+height: 0;
+}
+.switch-slider {
+position: absolute;
+cursor: pointer;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: #e5e7eb;
+transition: .4s;
+border-radius: 24px;
+}
+.switch-slider:before {
+position: absolute;
+content: "";
+height: 18px;
+width: 18px;
+left: 3px;
+bottom: 3px;
+background-color: white;
+transition: .4s;
+border-radius: 50%;
+}
+input:checked + .switch-slider {
+background-color: #c41e1e;
+}
+input:checked + .switch-slider:before {
+transform: translateX(26px);
+}
+.category-scroll::-webkit-scrollbar {
+display: none;
+}
+.category-scroll {
+-ms-overflow-style: none;
+scrollbar-width: none;
+}
+</style>
+</head>
+<body class="bg-gray-50">
+<!-- ヘッダー -->
+<header class="bg-primary text-white">
+<div class="container mx-auto px-4 py-3 flex justify-between items-center">
+<div class="flex items-center">
+<h1 class="mr-8">
+<img src="https://static.readdy.ai/image/60a8b97af392af7bc8fe2dab5eed4ff2/9a7366ee1efae74d9558a198540554a4.png" alt="親子の時間研究所" class="h-8 w-auto">
+</h1>
+<nav class="hidden md:flex space-x-6">
+<a href="#" class="text-white hover:text-gray-200 font-medium">ホーム</a>
+<a href="#" class="text-white hover:text-gray-200 font-medium">よみもの</a>
+<a href="#" class="text-white hover:text-gray-200 font-medium">おかいもの</a>
+<a href="https://ehonyasan-moe.oyakonojikanlabo.jp/socks/" data-readdy="true" class="text-white hover:text-gray-200 font-medium">絵本のくつした</a>
+<a href="#" class="text-white hover:text-gray-200 font-medium">イベント</a>
+<a href="https://" data-readdy="true" class="text-white hover:text-gray-200 font-medium">PICO豊中</a>
+</nav>
+</div>
+<div class="flex items-center space-x-4">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-search-line ri-lg"></i>
+</div>
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-user-line ri-lg"></i>
+</div>
+<div class="w-8 h-8 flex items-center justify-center md:hidden">
+<i class="ri-menu-line ri-lg"></i>
+</div>
+</div>
+</div>
+</header>
+<!-- ページヘッダー -->
+<div class="bg-white shadow-sm">
+<div class="container mx-auto px-4 py-4 flex items-center justify-between">
+<a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/32584794-02cd-4489-bacf-3b88978cb5ca" data-readdy="true" class="flex items-center text-gray-600 hover:text-primary">
+<div class="w-5 h-5 flex items-center justify-center mr-1">
+<i class="ri-arrow-left-line"></i>
+</div>
+<span>戻る</span>
+</a>
+<h1 class="text-xl font-bold">イベント情報</h1>
+<button id="searchToggleBtn" class="w-8 h-8 flex items-center justify-center text-gray-600">
+<i class="ri-search-line ri-lg"></i>
+</button>
+</div>
+</div>
+<!-- 検索バー（初期は非表示） -->
+<div id="searchBar" class="hidden bg-white shadow-md py-4 border-t border-gray-100">
+<div class="container mx-auto px-4">
+<div class="flex items-center bg-gray-50 rounded-lg px-4 py-2">
+<div class="w-5 h-5 flex items-center justify-center text-gray-400 mr-2">
+<i class="ri-search-line"></i>
+</div>
+<input type="text" placeholder="イベントを検索" class="w-full bg-transparent border-none text-sm">
+</div>
+<div class="mt-4">
+<button id="advancedSearchBtn" class="text-primary text-sm flex items-center">
+詳細検索
+<div class="w-5 h-5 flex items-center justify-center ml-1">
+<i class="ri-arrow-down-s-line"></i>
+</div>
+</button>
+<div id="advancedSearchOptions" class="hidden mt-4 space-y-4">
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">開始日</label>
+<input type="date" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">終了日</label>
+<input type="date" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">地域</label>
+<select class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm pr-8">
+<option value="">全国</option>
+<option value="hokkaido">北海道</option>
+<option value="tohoku">東北</option>
+<option value="kanto">関東</option>
+<option value="chubu">中部</option>
+<option value="kinki">近畿</option>
+<option value="chugoku">中国</option>
+<option value="shikoku">四国</option>
+<option value="kyushu">九州・沖縄</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">カテゴリー</label>
+<div class="grid grid-cols-2 gap-2">
+<label class="custom-checkbox text-sm">
+作家イベント
+<input type="checkbox" name="category" value="author">
+<span class="checkmark"></span>
+</label>
+<label class="custom-checkbox text-sm">
+原画展
+<input type="checkbox" name="category" value="exhibition">
+<span class="checkmark"></span>
+</label>
+<label class="custom-checkbox text-sm">
+読み聞かせ
+<input type="checkbox" name="category" value="reading">
+<span class="checkmark"></span>
+</label>
+<label class="custom-checkbox text-sm">
+ワークショップ
+<input type="checkbox" name="category" value="workshop">
+<span class="checkmark"></span>
+</label>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">料金</label>
+<div class="flex items-center space-x-4">
+<label class="custom-checkbox text-sm">
+無料
+<input type="radio" name="fee" value="free">
+<span class="checkmark"></span>
+</label>
+<label class="custom-checkbox text-sm">
+有料
+<input type="radio" name="fee" value="paid">
+<span class="checkmark"></span>
+</label>
+<label class="custom-checkbox text-sm">
+すべて
+<input type="radio" name="fee" value="all" checked>
+<span class="checkmark"></span>
+</label>
+</div>
+</div>
+<div class="flex justify-end">
+<button class="bg-primary text-white px-6 py-2 rounded-button whitespace-nowrap text-sm">検索する</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- フィルターセクション -->
+<div class="bg-white shadow-sm sticky top-0 z-10">
+<div class="container mx-auto px-4 py-3">
+<!-- カテゴリータグ -->
+<div class="category-scroll overflow-x-auto whitespace-nowrap pb-2 mb-3">
+<div class="inline-flex space-x-2">
+<button class="bg-primary text-white px-4 py-1 rounded-full text-sm whitespace-nowrap">全て</button>
+<button class="bg-white text-gray-700 border border-gray-200 px-4 py-1 rounded-full text-sm whitespace-nowrap hover:bg-gray-50">作家イベント</button>
+<button class="bg-white text-gray-700 border border-gray-200 px-4 py-1 rounded-full text-sm whitespace-nowrap hover:bg-gray-50">原画展</button>
+<button class="bg-white text-gray-700 border border-gray-200 px-4 py-1 rounded-full text-sm whitespace-nowrap hover:bg-gray-50">読み聞かせ</button>
+<button class="bg-white text-gray-700 border border-gray-200 px-4 py-1 rounded-full text-sm whitespace-nowrap hover:bg-gray-50">ワークショップ</button>
+<button class="bg-white text-gray-700 border border-gray-200 px-4 py-1 rounded-full text-sm whitespace-nowrap hover:bg-gray-50">トークイベント</button>
+<button class="bg-white text-gray-700 border border-gray-200 px-4 py-1 rounded-full text-sm whitespace-nowrap hover:bg-gray-50">サイン会</button>
+</div>
+</div>
+<!-- 表示切替と地域選択 -->
+<div class="flex justify-between items-center">
+<div class="flex items-center space-x-4">
+<div class="flex bg-gray-100 rounded-full p-1">
+<button id="listViewBtn" class="flex items-center justify-center w-8 h-8 rounded-full bg-white shadow-sm">
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-list-check"></i>
+</div>
+</button>
+<button id="calendarViewBtn" class="flex items-center justify-center w-8 h-8 rounded-full text-gray-500">
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-calendar-line"></i>
+</div>
+</button>
+</div>
+<div class="relative">
+<button id="regionDropdownBtn" class="flex items-center text-sm font-medium bg-white border border-gray-200 rounded-lg px-3 py-1.5">
+<span>全国</span>
+<div class="w-5 h-5 flex items-center justify-center ml-1">
+<i class="ri-arrow-down-s-line"></i>
+</div>
+</button>
+<div id="regionDropdown" class="hidden absolute left-0 top-full mt-1 bg-white shadow-lg rounded-lg w-48 z-20">
+<ul class="py-1">
+<li><button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50">全国</button></li>
+<li><button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50">北海道</button></li>
+<li><button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50">東北</button></li>
+<li><button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50">関東</button></li>
+<li><button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50">中部</button></li>
+<li><button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50">近畿</button></li>
+<li><button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50">中国</button></li>
+<li><button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50">四国</button></li>
+<li><button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50">九州・沖縄</button></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="flex items-center text-sm text-gray-500">
+<span>最新順</span>
+<div class="w-5 h-5 flex items-center justify-center ml-1">
+<i class="ri-arrow-down-s-line"></i>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- イベントリスト表示 -->
+<div id="listView" class="container mx-auto px-4 py-6">
+<div class="space-y-6">
+<!-- イベント1 -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+<div class="flex flex-col md:flex-row">
+<div class="w-full md:w-1/3 relative">
+<div class="aspect-[3/2] w-full">
+<img src="https://static.readdy.ai/image/60a8b97af392af7bc8fe2dab5eed4ff2/bf36d3a66d2c4495d815daab6a95c131.png" alt="山田ゆうこさん 絵本読み聞かせ会" class="absolute inset-0 w-full h-full object-cover object-top">
+</div>
+</div>
+<div class="w-full md:w-2/3 p-6">
+<div class="flex flex-wrap gap-2 mb-2">
+<span class="inline-block bg-red-100 text-red-800 px-3 py-1 text-xs rounded-full">作家イベント</span>
+<span class="inline-block bg-blue-100 text-blue-800 px-3 py-1 text-xs rounded-full">読み聞かせ</span>
+</div>
+<h2 class="text-xl font-bold mb-2">山田ゆうこさん 絵本読み聞かせ会</h2>
+<div class="flex items-center text-gray-600 mb-2">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-calendar-line"></i>
+</div>
+<span>2025年6月20日(金) 14:00〜15:30</span>
+</div>
+<div class="flex items-center text-gray-600 mb-4">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-map-pin-line"></i>
+</div>
+<span>東京都 | 丸の内ブックセンター</span>
+</div>
+<p class="text-gray-600 mb-4">人気絵本作家の山田ゆうこさんによる読み聞かせイベント。新作「もりのなかまたち」の朗読と、子どもたちとの交流会を行います。サイン会も予定しています。</p>
+<a href="#" class="inline-block bg-primary text-white px-6 py-2 rounded-button whitespace-nowrap hover:bg-primary/90 transition-colors">
+詳細を見る
+</a>
+</div>
+</div>
+</div>
+<!-- イベント2 -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+<div class="flex flex-col md:flex-row">
+<div class="w-full md:w-1/3 relative">
+<div class="aspect-[3/2] w-full">
+<img src="https://readdy.ai/api/search-image?query=A%2520Japanese%2520art%2520gallery%2520exhibition%2520featuring%2520original%2520illustrations%2520from%2520childrens%2520picture%2520books.%2520The%2520gallery%2520has%2520white%2520walls%2520with%2520framed%2520colorful%2520artwork%2520displayed%2520at%2520eye%2520level.%2520Visitors%2520are%2520viewing%2520the%2520illustrations%2520with%2520interest.%2520The%2520lighting%2520is%2520professional%2520and%2520highlights%2520the%2520artwork%2520beautifully.&width=600&height=400&seq=2&orientation=landscape" alt="「動物たちの世界」絵本原画展" class="absolute inset-0 w-full h-full object-cover object-top">
+</div>
+</div>
+<div class="w-full md:w-2/3 p-6">
+<div class="flex flex-wrap gap-2 mb-2">
+<span class="inline-block bg-blue-100 text-blue-800 px-3 py-1 text-xs rounded-full">原画展</span>
+</div>
+<h2 class="text-xl font-bold mb-2">「動物たちの世界」絵本原画展</h2>
+<div class="flex items-center text-gray-600 mb-2">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-calendar-line"></i>
+</div>
+<span>2025年7月1日(火)〜7月15日(火)</span>
+</div>
+<div class="flex items-center text-gray-600 mb-4">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-map-pin-line"></i>
+</div>
+<span>大阪府 | 大阪市立美術館</span>
+</div>
+<p class="text-gray-600 mb-4">人気絵本作家5名による動物をテーマにした原画展。普段は見ることのできない制作過程の資料や、未公開作品も展示します。会期中には作家によるギャラリートークも開催予定です。</p>
+<a href="#" class="inline-block bg-primary text-white px-6 py-2 rounded-button whitespace-nowrap hover:bg-primary/90 transition-colors">
+詳細を見る
+</a>
+</div>
+</div>
+</div>
+<!-- イベント3 -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+<div class="flex flex-col md:flex-row">
+<div class="w-full md:w-1/3 relative">
+<div class="aspect-[3/2] w-full">
+<img src="https://static.readdy.ai/image/60a8b97af392af7bc8fe2dab5eed4ff2/30e5f268453d5644679393e8b3b473c7.jpeg" alt="親子で作る！絵本の主人公フィギュア" class="absolute inset-0 w-full h-full object-cover object-top">
+</div>
+</div>
+<div class="w-full md:w-2/3 p-6">
+<div class="flex flex-wrap gap-2 mb-2">
+<span class="inline-block bg-green-100 text-green-800 px-3 py-1 text-xs rounded-full">ワークショップ</span>
+</div>
+<h2 class="text-xl font-bold mb-2">親子で作る！絵本の主人公フィギュア</h2>
+<div class="flex items-center text-gray-600 mb-2">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-calendar-line"></i>
+</div>
+<span>2025年6月25日(水) 10:00〜12:00</span>
+</div>
+<div class="flex items-center text-gray-600 mb-4">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-map-pin-line"></i>
+</div>
+<span>愛知県 | 名古屋市児童文化センター</span>
+</div>
+<p class="text-gray-600 mb-4">お気に入りの絵本の主人公をモデルに、粘土で立体フィギュアを作るワークショップです。完成した作品はお持ち帰りいただけます。対象年齢：4歳〜小学生（保護者同伴）</p>
+<a href="#" class="inline-block bg-primary text-white px-6 py-2 rounded-button whitespace-nowrap hover:bg-primary/90 transition-colors">
+詳細を見る
+</a>
+</div>
+</div>
+</div>
+<!-- イベント4 -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+<div class="flex flex-col md:flex-row">
+<div class="w-full md:w-1/3 relative">
+<div class="aspect-[3/2] w-full">
+<img src="https://readdy.ai/api/search-image?query=A%2520Japanese%2520bookstore%2520event%2520with%2520an%2520author%2520signing%2520books%2520for%2520fans.%2520The%2520author%2520is%2520seated%2520at%2520a%2520table%2520with%2520stacks%2520of%2520picture%2520books%2520and%2520is%2520signing%2520a%2520book%2520for%2520a%2520young%2520fan.%2520There%2520is%2520a%2520line%2520of%2520people%2520waiting%2520for%2520their%2520turn.%2520The%2520bookstore%2520setting%2520is%2520cozy%2520with%2520bookshelves%2520in%2520the%2520background.&width=600&height=400&seq=4&orientation=landscape" alt="佐藤まりこさん サイン会" class="absolute inset-0 w-full h-full object-cover object-top">
+</div>
+</div>
+<div class="w-full md:w-2/3 p-6">
+<div class="flex flex-wrap gap-2 mb-2">
+<span class="inline-block bg-purple-100 text-purple-800 px-3 py-1 text-xs rounded-full">サイン会</span>
+<span class="inline-block bg-red-100 text-red-800 px-3 py-1 text-xs rounded-full">作家イベント</span>
+</div>
+<h2 class="text-xl font-bold mb-2">佐藤まりこさん サイン会</h2>
+<div class="flex items-center text-gray-600 mb-2">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-calendar-line"></i>
+</div>
+<span>2025年6月30日(月) 13:00〜15:00</span>
+</div>
+<div class="flex items-center text-gray-600 mb-4">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-map-pin-line"></i>
+</div>
+<span>東京都 | 有楽町ブックギャラリー</span>
+</div>
+<p class="text-gray-600 mb-4">ベストセラー絵本「もりのともだち」シリーズの作者、佐藤まりこさんのサイン会を開催します。当日会場で書籍をご購入の方、先着50名様にサイン会参加券を配布します。</p>
+<a href="#" class="inline-block bg-primary text-white px-6 py-2 rounded-button whitespace-nowrap hover:bg-primary/90 transition-colors">
+詳細を見る
+</a>
+</div>
+</div>
+</div>
+<!-- イベント5 -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+<div class="flex flex-col md:flex-row">
+<div class="w-full md:w-1/3 relative">
+<div class="aspect-[3/2] w-full">
+<img src="https://readdy.ai/api/search-image?query=A%2520Japanese%2520library%2520setting%2520with%2520a%2520storytelling%2520session%2520for%2520children.%2520A%2520librarian%2520is%2520reading%2520from%2520a%2520large%2520picture%2520book%2520to%2520a%2520group%2520of%2520attentive%2520children%2520sitting%2520on%2520a%2520colorful%2520carpet.%2520The%2520library%2520has%2520child-friendly%2520furniture%2520and%2520decorations.%2520The%2520atmosphere%2520is%2520warm%2520and%2520educational.&width=600&height=400&seq=5&orientation=landscape" alt="週末絵本読み聞かせ会" class="absolute inset-0 w-full h-full object-cover object-top">
+</div>
+</div>
+<div class="w-full md:w-2/3 p-6">
+<div class="flex flex-wrap gap-2 mb-2">
+<span class="inline-block bg-blue-100 text-blue-800 px-3 py-1 text-xs rounded-full">読み聞かせ</span>
+</div>
+<h2 class="text-xl font-bold mb-2">週末絵本読み聞かせ会</h2>
+<div class="flex items-center text-gray-600 mb-2">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-calendar-line"></i>
+</div>
+<span>2025年7月5日(土) 10:30〜11:30</span>
+</div>
+<div class="flex items-center text-gray-600 mb-4">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-map-pin-line"></i>
+</div>
+<span>福岡県 | 福岡市立中央図書館</span>
+</div>
+<p class="text-gray-600 mb-4">毎週土曜日開催の絵本読み聞かせ会。今回は「夏」をテーマにした絵本を中心に読み聞かせを行います。参加無料、予約不要です。対象年齢：2歳〜6歳（保護者同伴）</p>
+<a href="#" class="inline-block bg-primary text-white px-6 py-2 rounded-button whitespace-nowrap hover:bg-primary/90 transition-colors">
+詳細を見る
+</a>
+</div>
+</div>
+</div>
+<!-- イベント6 -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+<div class="flex flex-col md:flex-row">
+<div class="w-full md:w-1/3 relative">
+<div class="aspect-[3/2] w-full">
+<img src="https://readdy.ai/api/search-image?query=A%2520Japanese%2520art%2520museum%2520exhibition%2520featuring%2520large%2520illustrations%2520from%2520picture%2520books.%2520The%2520exhibition%2520space%2520has%2520high%2520ceilings%2520and%2520white%2520walls%2520with%2520colorful%2520artwork%2520displayed.%2520Visitors%2520of%2520all%2520ages%2520are%2520viewing%2520the%2520exhibits.%2520The%2520lighting%2520is%2520professional%2520and%2520the%2520atmosphere%2520is%2520cultural%2520and%2520educational.&width=600&height=400&seq=6&orientation=landscape" alt="世界の絵本展" class="absolute inset-0 w-full h-full object-cover object-top">
+</div>
+</div>
+<div class="w-full md:w-2/3 p-6">
+<div class="flex flex-wrap gap-2 mb-2">
+<span class="inline-block bg-blue-100 text-blue-800 px-3 py-1 text-xs rounded-full">原画展</span>
+<span class="inline-block bg-yellow-100 text-yellow-800 px-3 py-1 text-xs rounded-full">国際交流</span>
+</div>
+<h2 class="text-xl font-bold mb-2">世界の絵本展</h2>
+<div class="flex items-center text-gray-600 mb-2">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-calendar-line"></i>
+</div>
+<span>2025年7月10日(木)〜8月10日(日)</span>
+</div>
+<div class="flex items-center text-gray-600 mb-4">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-map-pin-line"></i>
+</div>
+<span>京都府 | 京都国際マンガミュージアム</span>
+</div>
+<p class="text-gray-600 mb-4">世界15カ国の絵本作家による原画約200点を展示する国際展覧会。各国の文化や歴史を反映した多様な絵本の世界をお楽しみいただけます。音声ガイド付き（日本語・英語・中国語）</p>
+<a href="#" class="inline-block bg-primary text-white px-6 py-2 rounded-button whitespace-nowrap hover:bg-primary/90 transition-colors">
+詳細を見る
+</a>
+</div>
+</div>
+</div>
+<!-- もっと見るボタン -->
+<div class="flex justify-center mt-8">
+<button class="bg-white text-primary border border-primary px-8 py-3 rounded-button whitespace-nowrap hover:bg-gray-50 transition-colors">
+もっと見る
+</button>
+</div>
+</div>
+</div>
+<!-- イベント掲載募集 -->
+<div class="bg-gradient-to-r from-primary/5 to-secondary/5 py-16 mt-12">
+<div class="container mx-auto px-4">
+<div class="bg-white rounded-lg shadow-md p-8 max-w-4xl mx-auto">
+<div class="flex flex-col md:flex-row items-center gap-8">
+<div class="w-full md:w-2/3">
+<h2 class="text-2xl font-bold mb-4">イベント掲載店を募集します</h2>
+<p class="text-gray-600 mb-6">絵本作家、書店、図書館、美術館などの皆様からのイベント情報を募集しています。読み聞かせ会、原画展、ワークショップなど、絵本に関するイベントをお持ちの方は、ぜひご登録ください。</p>
+<div class="space-y-4">
+<div class="flex items-start">
+<div class="w-6 h-6 flex items-center justify-center text-primary mt-0.5">
+<i class="ri-check-line"></i>
+</div>
+<div class="ml-3">
+<h3 class="font-medium">掲載無料</h3>
+<p class="text-sm text-gray-500">イベント情報の掲載は完全無料です</p>
+</div>
+</div>
+<div class="flex items-start">
+<div class="w-6 h-6 flex items-center justify-center text-primary mt-0.5">
+<i class="ri-check-line"></i>
+</div>
+<div class="ml-3">
+<h3 class="font-medium">簡単登録</h3>
+<p class="text-sm text-gray-500">必要事項を入力するだけで掲載できます</p>
+</div>
+</div>
+<div class="flex items-start">
+<div class="w-6 h-6 flex items-center justify-center text-primary mt-0.5">
+<i class="ri-check-line"></i>
+</div>
+<div class="ml-3">
+<h3 class="font-medium">幅広い発信</h3>
+<p class="text-sm text-gray-500">全国の絵本ファンにイベントをお届けします</p>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full md:w-1/3 flex justify-center">
+<a href="#" class="inline-flex items-center justify-center bg-primary text-white px-8 py-4 rounded-button whitespace-nowrap hover:bg-primary/90 transition-colors w-full md:w-auto">
+<span class="mr-2">イベントを掲載する</span>
+<i class="ri-arrow-right-line"></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- カレンダー表示（初期は非表示） -->
+<div id="calendarView" class="container mx-auto px-4 py-6 hidden">
+<div class="bg-white rounded-lg shadow-md p-6">
+<!-- カレンダーヘッダー -->
+<div class="flex justify-between items-center mb-6">
+<button class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100 rounded-full">
+<i class="ri-arrow-left-s-line"></i>
+</button>
+<h2 class="text-xl font-bold">2025年 6月</h2>
+<button class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100 rounded-full">
+<i class="ri-arrow-right-s-line"></i>
+</button>
+</div>
+<!-- 曜日ヘッダー -->
+<div class="grid grid-cols-7 text-center mb-2">
+<div class="text-red-500 font-medium">日</div>
+<div class="font-medium">月</div>
+<div class="font-medium">火</div>
+<div class="font-medium">水</div>
+<div class="font-medium">木</div>
+<div class="font-medium">金</div>
+<div class="text-blue-500 font-medium">土</div>
+</div>
+<!-- カレンダー本体 -->
+<div class="grid grid-cols-7 gap-1">
+<!-- 前月分 -->
+<div class="calendar-day flex items-center justify-center text-gray-400">26</div>
+<div class="calendar-day flex items-center justify-center text-gray-400">27</div>
+<div class="calendar-day flex items-center justify-center text-gray-400">28</div>
+<div class="calendar-day flex items-center justify-center text-gray-400">29</div>
+<div class="calendar-day flex items-center justify-center text-gray-400">30</div>
+<div class="calendar-day flex items-center justify-center text-gray-400">31</div>
+<!-- 6月分 -->
+<div class="calendar-day flex items-center justify-center text-blue-500">1</div>
+<div class="calendar-day flex items-center justify-center">2</div>
+<div class="calendar-day flex items-center justify-center">3</div>
+<div class="calendar-day flex items-center justify-center">4</div>
+<div class="calendar-day flex items-center justify-center">5</div>
+<div class="calendar-day flex items-center justify-center has-event relative">6</div>
+<div class="calendar-day flex items-center justify-center text-blue-500 has-event relative">7</div>
+<div class="calendar-day flex items-center justify-center text-red-500">8</div>
+<div class="calendar-day flex items-center justify-center">9</div>
+<div class="calendar-day flex items-center justify-center has-event relative">10</div>
+<div class="calendar-day flex items-center justify-center">11</div>
+<div class="calendar-day flex items-center justify-center">12</div>
+<div class="calendar-day flex items-center justify-center">13</div>
+<div class="calendar-day flex items-center justify-center text-blue-500">14</div>
+<div class="calendar-day flex items-center justify-center text-red-500">15</div>
+<div class="calendar-day flex items-center justify-center">16</div>
+<div class="calendar-day flex items-center justify-center">17</div>
+<div class="calendar-day flex items-center justify-center">18</div>
+<div class="calendar-day flex items-center justify-center">19</div>
+<div class="calendar-day flex items-center justify-center has-event relative">20</div>
+<div class="calendar-day flex items-center justify-center text-blue-500">21</div>
+<div class="calendar-day flex items-center justify-center text-red-500">22</div>
+<div class="calendar-day flex items-center justify-center">23</div>
+<div class="calendar-day flex items-center justify-center">24</div>
+<div class="calendar-day flex items-center justify-center has-event relative">25</div>
+<div class="calendar-day flex items-center justify-center">26</div>
+<div class="calendar-day flex items-center justify-center">27</div>
+<div class="calendar-day flex items-center justify-center text-blue-500">28</div>
+<div class="calendar-day flex items-center justify-center text-red-500">29</div>
+<div class="calendar-day flex items-center justify-center has-event relative">30</div>
+<!-- 翌月分 -->
+<div class="calendar-day flex items-center justify-center text-gray-400">1</div>
+<div class="calendar-day flex items-center justify-center text-gray-400 has-event relative">2</div>
+<div class="calendar-day flex items-center justify-center text-gray-400">3</div>
+<div class="calendar-day flex items-center justify-center text-gray-400">4</div>
+<div class="calendar-day flex items-center justify-center text-gray-400">5</div>
+</div>
+<!-- 選択日のイベント一覧 -->
+<div class="mt-8">
+<h3 class="text-lg font-bold mb-4">6月20日のイベント</h3>
+<div class="space-y-4">
+<div class="border border-gray-200 rounded-lg p-4">
+<div class="flex flex-wrap gap-2 mb-2">
+<span class="inline-block bg-red-100 text-red-800 px-3 py-1 text-xs rounded-full">作家イベント</span>
+<span class="inline-block bg-blue-100 text-blue-800 px-3 py-1 text-xs rounded-full">読み聞かせ</span>
+</div>
+<h4 class="font-bold mb-2">山田ゆうこさん 絵本読み聞かせ会</h4>
+<div class="flex items-center text-gray-600 mb-2">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-time-line"></i>
+</div>
+<span>14:00〜15:30</span>
+</div>
+<div class="flex items-center text-gray-600 mb-2">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-map-pin-line"></i>
+</div>
+<span>東京都 | 丸の内ブックセンター</span>
+</div>
+<a href="#" class="text-primary font-medium flex items-center mt-2">
+詳細を見る
+<div class="w-5 h-5 flex items-center justify-center ml-1">
+<i class="ri-arrow-right-line"></i>
+</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- フッター -->
+<footer class="bg-gray-800 text-white py-12 mt-12">
+<div class="container mx-auto px-4">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+<div>
+<h3 class="mb-4">
+<img src="/path/to/your/logo.png" alt="親子の時間研究所" class="h-6 w-auto">
+</h3>
+<p class="text-gray-400 mb-4">創造性と感性を育むライフスタイルメディア</p>
+<div class="flex space-x-4">
+<a href="#" class="text-gray-400 hover:text-white">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-twitter-x-line ri-lg"></i>
+</div>
+</a>
+<a href="#" class="text-gray-400 hover:text-white">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-instagram-line ri-lg"></i>
+</div>
+</a>
+<a href="#" class="text-gray-400 hover:text-white">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-facebook-circle-line ri-lg"></i>
+</div>
+</a>
+<a href="#" class="text-gray-400 hover:text-white">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-youtube-line ri-lg"></i>
+</div>
+</a>
+</div>
+</div>
+<div>
+<h3 class="font-bold text-lg mb-4">コンテンツ</h3>
+<ul class="space-y-2">
+<li><a href="#" class="text-gray-400 hover:text-white">よみもの</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white">おかいもの</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white">絵本の靴下</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white">イベント</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white">作家</a></li>
+</ul>
+</div>
+<div>
+<h3 class="font-bold text-lg mb-4">豊中PICO</h3>
+<ul class="space-y-2">
+<li><a href="#" class="text-gray-400 hover:text-white">絵本サロン</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white">キッズスクール</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white">おとなも絵本</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white">レンタルスペース</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white">アクセス</a></li>
+</ul>
+</div>
+<div>
+<h3 class="font-bold text-lg mb-4">企業情報</h3>
+<ul class="space-y-2">
+<li><a href="#" class="text-gray-400 hover:text-white">会社概要</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white">プライバシーポリシー</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white">特定商取引法に基づく表記</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white">お問い合わせ</a></li>
+</ul>
+</div>
+</div>
+<div class="border-t border-gray-700 pt-8 text-center text-gray-500">
+<p>&copy; 2025 親子の時間研究所 All Rights Reserved.</p>
+</div>
+</div>
+</footer>
+<script id="navToggle">
+document.addEventListener('DOMContentLoaded', function() {
+const menuButton = document.querySelector('.ri-menu-line');
+const nav = document.querySelector('nav');
+if (menuButton && nav) {
+menuButton.addEventListener('click', function() {
+nav.classList.toggle('hidden');
+});
+}
+});
+</script>
+<script id="viewToggle">
+document.addEventListener('DOMContentLoaded', function() {
+const listViewBtn = document.getElementById('listViewBtn');
+const calendarViewBtn = document.getElementById('calendarViewBtn');
+const listView = document.getElementById('listView');
+const calendarView = document.getElementById('calendarView');
+listViewBtn.addEventListener('click', function() {
+listView.classList.remove('hidden');
+calendarView.classList.add('hidden');
+listViewBtn.classList.add('bg-white', 'shadow-sm');
+listViewBtn.classList.remove('text-gray-500');
+calendarViewBtn.classList.remove('bg-white', 'shadow-sm');
+calendarViewBtn.classList.add('text-gray-500');
+});
+calendarViewBtn.addEventListener('click', function() {
+listView.classList.add('hidden');
+calendarView.classList.remove('hidden');
+calendarViewBtn.classList.add('bg-white', 'shadow-sm');
+calendarViewBtn.classList.remove('text-gray-500');
+listViewBtn.classList.remove('bg-white', 'shadow-sm');
+listViewBtn.classList.add('text-gray-500');
+});
+});
+</script>
+<script id="dropdownToggle">
+document.addEventListener('DOMContentLoaded', function() {
+const regionDropdownBtn = document.getElementById('regionDropdownBtn');
+const regionDropdown = document.getElementById('regionDropdown');
+regionDropdownBtn.addEventListener('click', function() {
+regionDropdown.classList.toggle('hidden');
+});
+document.addEventListener('click', function(event) {
+if (!regionDropdownBtn.contains(event.target) && !regionDropdown.contains(event.target)) {
+regionDropdown.classList.add('hidden');
+}
+});
+const regionOptions = regionDropdown.querySelectorAll('button');
+regionOptions.forEach(option => {
+option.addEventListener('click', function() {
+regionDropdownBtn.querySelector('span').textContent = this.textContent;
+regionDropdown.classList.add('hidden');
+});
+});
+});
+</script>
+<script id="searchToggle">
+document.addEventListener('DOMContentLoaded', function() {
+const searchToggleBtn = document.getElementById('searchToggleBtn');
+const searchBar = document.getElementById('searchBar');
+const advancedSearchBtn = document.getElementById('advancedSearchBtn');
+const advancedSearchOptions = document.getElementById('advancedSearchOptions');
+searchToggleBtn.addEventListener('click', function() {
+searchBar.classList.toggle('hidden');
+});
+advancedSearchBtn.addEventListener('click', function() {
+advancedSearchOptions.classList.toggle('hidden');
+const icon = advancedSearchBtn.querySelector('i');
+if (advancedSearchOptions.classList.contains('hidden')) {
+icon.classList.remove('ri-arrow-up-s-line');
+icon.classList.add('ri-arrow-down-s-line');
+} else {
+icon.classList.remove('ri-arrow-down-s-line');
+icon.classList.add('ri-arrow-up-s-line');
+}
+});
+});
+</script>
+</body>
+</html>

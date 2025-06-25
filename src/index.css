@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+/* @import url('https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css'); */
+
+/* :where([class^="ri-"])::before { 
+  content: "\f3c2"; 
+}
+ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  color: #333;
+}
+
+.hero-gradient {
+  background: linear-gradient(90deg, #c41e1e 0%, rgba(196, 30, 30, 0.8) 100%);
+}
+
+input:focus {
+  outline: none;
+}
+
+.animate-fade-in {
+  animation: fadeIn 1.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.article-content p {
+  margin-bottom: 1.5rem;
+  line-height: 1.8;
+}
+
+.article-content h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 2.5rem;
+  margin-bottom: 1.5rem;
+  color: #111;
+}
+
+.article-content h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: #111;
+}
+
+.article-content blockquote {
+  border-left: 4px solid #c41e1e;
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  color: #555;
+  background-color: #f8f8f8;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.article-content ul, .article-content ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.article-content ul li, .article-content ol li {
+  margin-bottom: 0.5rem;
+}
+
+.article-content ul {
+  list-style-type: disc;
+}
+
+.article-content ol {
+  list-style-type: decimal;
+}
+
+.article-content a {
+  color: #c41e1e;
+  text-decoration: underline;
+}
+
+.article-content a:hover {
+  text-decoration: none;
+}
+
+.article-content img {
+  border-radius: 0.5rem;
+  margin: 2rem 0;
+}
+
+.article-content .interview-q {
+  font-weight: 700;
+  color: #c41e1e;
+  margin-bottom: 0.5rem;
+}
+
+.article-content .interview-a {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.article-content .caption {
+  text-align: center;
+  font-size: 0.875rem;
+  color: #666;
+  margin-top: -1.5rem;
+  margin-bottom: 2rem;
+}
+
+.calendar-day {
+  width: 40px;
+  height: 40px;
+}
+
+.calendar-day.has-event::after {
+  content: '';
+  display: block;
+  width: 4px;
+  height: 4px;
+  background-color: #c41e1e;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.book-card:hover .book-hover {
+  opacity: 1;
+}
+
+.category-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.category-scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

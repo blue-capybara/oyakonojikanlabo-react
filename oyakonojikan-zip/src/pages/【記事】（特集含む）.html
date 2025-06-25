@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>なかやみわさんとの"ものづくり"対談 | 親子の時間研究所</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#c41e1e',secondary:'#f9d423'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Noto Sans JP', sans-serif;
+color: #333;
+}
+.hero-gradient {
+background: linear-gradient(90deg, #c41e1e 0%, rgba(196, 30, 30, 0.8) 100%);
+}
+input:focus {
+outline: none;
+}
+.article-content p {
+margin-bottom: 1.5rem;
+line-height: 1.8;
+}
+.article-content h2 {
+font-size: 1.5rem;
+font-weight: 700;
+margin-top: 2.5rem;
+margin-bottom: 1.5rem;
+color: #111;
+}
+.article-content h3 {
+font-size: 1.25rem;
+font-weight: 700;
+margin-top: 2rem;
+margin-bottom: 1rem;
+color: #111;
+}
+.article-content blockquote {
+border-left: 4px solid #c41e1e;
+padding-left: 1rem;
+margin: 1.5rem 0;
+font-style: italic;
+color: #555;
+background-color: #f8f8f8;
+padding: 1rem;
+border-radius: 0.5rem;
+}
+.article-content ul, .article-content ol {
+margin-bottom: 1.5rem;
+padding-left: 1.5rem;
+}
+.article-content ul li, .article-content ol li {
+margin-bottom: 0.5rem;
+}
+.article-content ul {
+list-style-type: disc;
+}
+.article-content ol {
+list-style-type: decimal;
+}
+.article-content a {
+color: #c41e1e;
+text-decoration: underline;
+}
+.article-content a:hover {
+text-decoration: none;
+}
+.article-content img {
+border-radius: 0.5rem;
+margin: 2rem 0;
+}
+.article-content .interview-q {
+font-weight: 700;
+color: #c41e1e;
+margin-bottom: 0.5rem;
+}
+.article-content .interview-a {
+margin-bottom: 1.5rem;
+padding-left: 1.5rem;
+}
+.article-content .caption {
+text-align: center;
+font-size: 0.875rem;
+color: #666;
+margin-top: -1.5rem;
+margin-bottom: 2rem;
+}
+</style>
+</head>
+<body class="bg-white">
+<!-- ヘッダー -->
+<header class="bg-primary text-white fixed top-0 left-0 right-0 z-50 shadow-md">
+<div class="container mx-auto px-4">
+<div class="py-3 flex justify-between items-center">
+<div class="w-24"></div>
+<h1 class="flex justify-center">
+<a href="/">
+<img src="https://public.readdy.ai/ai/img_res/f99757ef-08c3-43d5-b778-d956445f2972.png" alt="親子の時間研究所" class="h-8 w-auto">
+</a>
+</h1>
+<div class="flex items-center space-x-4">
+<div class="relative">
+<button id="searchToggle" class="w-8 h-8 flex items-center justify-center text-white hover:text-gray-200">
+<i class="ri-search-line ri-lg"></i>
+</button>
+<div id="searchPanel" class="hidden absolute right-0 top-12 w-80 bg-white rounded-lg shadow-lg p-4">
+<div class="relative">
+<input type="text" id="searchInput" placeholder="キーワードを入力" class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-primary/20">
+<div class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 flex items-center justify-center text-gray-400">
+<i class="ri-search-line"></i>
+</div>
+</div>
+<div id="searchResults" class="mt-4 max-h-80 overflow-y-auto hidden">
+<div class="space-y-4">
+<div class="border-b pb-2">
+<h4 class="text-sm font-medium text-gray-900 mb-1">カテゴリー</h4>
+<div class="flex flex-wrap gap-2">
+<button class="px-3 py-1 bg-gray-100 text-sm rounded-full hover:bg-primary hover:text-white">絵本</button>
+<button class="px-3 py-1 bg-gray-100 text-sm rounded-full hover:bg-primary hover:text-white">イベント</button>
+<button class="px-3 py-1 bg-gray-100 text-sm rounded-full hover:bg-primary hover:text-white">インタビュー</button>
+</div>
+</div>
+<div class="space-y-3">
+<h4 class="text-sm font-medium text-gray-900">検索結果</h4>
+<div id="searchResultsList"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-user-line ri-lg"></i>
+</div>
+</div>
+</div>
+<nav class="flex justify-center space-x-6 sm:space-x-12 py-3">
+<a href="https://shop.oyakonojikanlabo.jp/" data-readdy="true" class="text-white hover:text-gray-200 font-medium text-sm tracking-tighter whitespace-nowrap px-2">おかいもの</a>
+<a href="https://ehonyasan-moe.oyakonojikanlabo.jp/socks/" data-readdy="true" class="text-white hover:text-gray-200 font-medium text-sm tracking-tighter whitespace-nowrap px-2">絵本のくつした</a>
+<a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/a0ecee2c-20f1-44ea-8d28-c9ad8978b25e" data-readdy="true" class="text-white hover:text-gray-200 font-medium text-sm tracking-tighter whitespace-nowrap px-2">イベント</a>
+<a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/a72cea04-19cf-408c-9717-ee31ecb57153" data-readdy="true" class="text-white hover:text-gray-200 font-medium text-sm tracking-tighter whitespace-nowrap px-2">PICO豊中</a>
+</nav>
+</div>
+</header>
+<!-- 記事ヘッダー -->
+<section class="pt-36 pb-12 bg-gray-50">
+<div class="container mx-auto px-4">
+<div class="flex items-center mb-4">
+<a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/32584794-02cd-4489-bacf-3b88978cb5ca" data-readdy="true" class="flex items-center text-gray-600 hover:text-primary">
+<div class="w-5 h-5 flex items-center justify-center mr-1">
+<i class="ri-arrow-left-line"></i>
+</div>
+<span>特集一覧に戻る</span>
+</a>
+</div>
+<div class="flex flex-wrap gap-2 mb-4">
+<span class="inline-block bg-blue-100 text-blue-800 px-3 py-1 text-xs rounded-full">特集</span>
+<span class="inline-block bg-purple-100 text-purple-800 px-3 py-1 text-xs rounded-full">インタビュー</span>
+</div>
+<h1 class="text-3xl md:text-4xl font-bold mb-6">なかやみわさんとの"ものづくり"対談</h1>
+<div class="flex items-center mb-8">
+<div class="w-10 h-10 rounded-full bg-gray-200 overflow-hidden mr-3">
+<img src="https://readdy.ai/api/search-image?query=A%2520professional%2520headshot%2520of%2520a%2520female%2520Japanese%2520editor%2520in%2520her%252030s%2520with%2520short%2520black%2520hair%2520and%2520glasses%252C%2520looking%2520confident%2520and%2520approachable%2520against%2520a%2520neutral%2520background.%2520The%2520photo%2520should%2520be%2520well-lit%2520with%2520soft%2520lighting%2520and%2520professional%2520quality.&width=200&height=200&seq=1&orientation=squarish" alt="編集部 佐藤" class="w-full h-full object-cover">
+</div>
+<div>
+<p class="font-medium">編集部 佐藤明子</p>
+<p class="text-sm text-gray-500">2025年6月18日公開</p>
+</div>
+</div>
+</div>
+</section>
+<!-- メイン画像 -->
+<div class="w-full h-[50vh] md:h-[60vh] overflow-hidden relative">
+<img src="https://readdy.ai/api/search-image?query=A%2520warm%2520and%2520inviting%2520interview%2520setting%2520with%2520a%2520famous%2520Japanese%2520children%2527s%2520book%2520author%2520and%2520illustrator%2520showing%2520her%2520artwork%2520and%2520books%2520to%2520an%2520interviewer.%2520The%2520space%2520has%2520natural%2520lighting%252C%2520bookshelves%2520with%2520colorful%2520children%2527s%2520books%252C%2520and%2520art%2520supplies.%2520The%2520atmosphere%2520is%2520creative%2520and%2520professional%2520with%2520a%2520touch%2520of%2520whimsy.&width=1200&height=600&seq=2&orientation=landscape" alt="なかやみわさんとの対談" class="w-full h-full object-cover">
+</div>
+<!-- 記事本文 -->
+<section class="py-12">
+<div class="container mx-auto px-4">
+<div class="max-w-3xl mx-auto">
+<!-- SNSシェアボタン -->
+<div class="flex items-center justify-end space-x-4 mb-8">
+<span class="text-sm text-gray-500">シェアする：</span>
+<a href="#" class="w-8 h-8 flex items-center justify-center rounded-full bg-[#1DA1F2] text-white">
+<i class="ri-twitter-x-fill"></i>
+</a>
+<a href="#" class="w-8 h-8 flex items-center justify-center rounded-full bg-[#1877F2] text-white">
+<i class="ri-facebook-fill"></i>
+</a>
+<a href="#" class="w-8 h-8 flex items-center justify-center rounded-full bg-[#06C755] text-white">
+<i class="ri-line-fill"></i>
+</a>
+</div>
+<!-- 記事導入部 -->
+<div class="mb-10">
+<p class="text-lg leading-relaxed mb-6">
+子どもたちが大好きな絵本「くれよんのくろくん」と「そらまめくん」。どちらも絵本作家なかや みわさんの作品です。今回は、なかやさんにお話を伺い、ものづくりの原点や創作の秘密について語っていただきました。
+</p>
+<p class="text-lg leading-relaxed">
+なかやさんの作品は、シンプルでありながらも温かみのある絵と、子どもたちの心に寄り添うストーリーが特徴です。今回の対談では、そんな魅力的な作品が生まれる背景に迫ります。
+</p>
+</div>
+<!-- 記事本文 -->
+<div class="article-content">
+<h2>なかやみわさんとの出会い</h2>
+<p>
+東京都内のカフェで待ち合わせたなかやさんは、温かな笑顔で現れました。テーブルには、最新作の「そらまめくんとめだかのこ」を含む、なかやさんの代表作が並べられています。
+</p>
+<img src="https://readdy.ai/api/search-image?query=A%2520collection%2520of%2520Japanese%2520children%2527s%2520picture%2520books%2520arranged%2520beautifully%2520on%2520a%2520wooden%2520table%2520in%2520a%2520cafe%2520setting.%2520The%2520books%2520are%2520colorful%2520with%2520illustrated%2520covers%2520featuring%2520cute%2520characters.%2520Natural%2520lighting%2520streams%2520in%2520from%2520a%2520nearby%2520window%252C%2520creating%2520a%2520warm%2520and%2520inviting%2520atmosphere.%2520A%2520cup%2520of%2520coffee%2520and%2520notebook%2520sit%2520nearby.&width=800&height=500&seq=3&orientation=landscape" alt="なかやみわさんの絵本" class="w-full">
+<p class="caption">なかやみわさんの代表作の数々</p>
+<div class="interview-q">
+――なかやさんが絵本作家を目指したきっかけは何だったのでしょうか？
+</div>
+<div class="interview-a">
+子どもの頃から絵を描くことが大好きでした。特に生き物を描くことに夢中で、小学生の頃には友達のノートに動物の絵を描いてあげていたんです。でも、絵本作家になろうと決めたのは、自分の子どもが生まれてからです。子どもに読み聞かせをする中で、「こんな絵本があったらいいな」と思うようになり、自分でも作ってみたいと思ったのがきっかけでした。
+</div>
+<h2>「くれよんのくろくん」誕生秘話</h2>
+<p>
+なかやさんの代表作「くれよんのくろくん」は、1990年に出版されて以来、多くの子どもたちに愛され続けています。黒いクレヨンが主人公という独創的な設定は、どのようにして生まれたのでしょうか。
+</p>
+<div class="interview-q">
+――「くれよんのくろくん」のアイデアはどのように生まれたのですか？
+</div>
+<div class="interview-a">
+子どもと一緒にクレヨンで絵を描いていた時のことです。子どもが「黒は暗くて怖いから使わない」と言ったんです。でも、黒がないと影も描けないし、輪郭も描けない。黒は実はとても大切な色なんだということを、子どもにも分かりやすく伝えたいと思ったんです。それで、黒いクレヨンに感情を持たせて、自分の存在意義を見つけていく物語を考えました。
+</div>
+<img src="https://readdy.ai/api/search-image?query=A%2520creative%2520workspace%2520with%2520sketches%2520and%2520drafts%2520of%2520children%2527s%2520book%2520illustrations%2520spread%2520out%2520on%2520a%2520desk.%2520Colorful%2520crayons%2520are%2520prominently%2520featured%252C%2520with%2520special%2520focus%2520on%2520a%2520black%2520crayon.%2520The%2520workspace%2520has%2520natural%2520lighting%2520and%2520shows%2520the%2520process%2520of%2520creating%2520a%2520children%2527s%2520picture%2520book%2520with%2520character%2520sketches%2520and%2520storyboard%2520elements.&width=800&height=500&seq=4&orientation=landscape" alt="くれよんのくろくんの創作過程" class="w-full">
+<p class="caption">「くれよんのくろくん」の創作過程</p>
+<blockquote>
+「くろくん」は、自分の居場所を見つけるまでの物語です。これは子どもだけでなく、大人にも共感してもらえるテーマだと思っています。誰もが自分の役割や存在意義を探しながら生きているのではないでしょうか。
+</blockquote>
+<h2>ものづくりの原点</h2>
+<p>
+なかやさんの作品には、登場人物たちが何かを作り出す場面が多く登場します。「そらまめくん」シリーズでは、主人公のそらまめくんが友達と協力して様々なものを作り上げていきます。
+</p>
+<div class="interview-q">
+――なかやさんの作品には「ものづくり」のテーマが多く見られますが、これにはどのような思いが込められているのでしょうか？
+</div>
+<div class="interview-a">
+子どもたちには、自分の手で何かを作る喜びを知ってほしいと思っています。今の時代、便利なものに囲まれて生活していますが、自分で考えて、試行錯誤しながら何かを作り上げる経験は、子どもの創造力や問題解決能力を育むと思うんです。「そらまめくん」シリーズでは、友達と協力して何かを作る過程も大切にしています。一人ではできないことも、みんなで力を合わせればできるようになる。そんなメッセージも込めています。
+</div>
+<img src="https://readdy.ai/api/search-image?query=A%2520warm%2520and%2520engaging%2520scene%2520of%2520children%2520working%2520together%2520on%2520a%2520creative%2520project%2520at%2520a%2520table%2520filled%2520with%2520art%2520supplies.%2520The%2520children%2520are%2520collaborating%2520happily%252C%2520showing%2520teamwork%2520and%2520creativity.%2520The%2520setting%2520is%2520bright%2520and%2520colorful%2520with%2520natural%2520lighting%252C%2520and%2520there%2520are%2520children%2527s%2520books%2520visible%2520nearby.%2520The%2520atmosphere%2520captures%2520the%2520joy%2520of%2520making%2520things%2520together.&width=800&height=500&seq=5&orientation=landscape" alt="子どもたちの共同制作" class="w-full">
+<p class="caption">子どもたちが協力して作品を作り上げる様子</p>
+<h3>子どもたちへのメッセージ</h3>
+<p>
+なかやさんは、絵本を通じて子どもたちに伝えたいことがあると言います。
+</p>
+<div class="interview-q">
+――なかやさんが絵本を通じて子どもたちに伝えたいことは何ですか？
+</div>
+<div class="interview-a">
+「自分らしさを大切にしてほしい」ということです。「くれよんのくろくん」も「そらまめくん」も、最初は自分に自信がなかったり、悩んだりしています。でも、周りの人との関わりの中で、自分にしかできないことを見つけていくんです。子どもたちにも、自分だけの特別な個性があることを知ってほしいですね。また、失敗を恐れずにチャレンジする勇気も持ってほしいと思います。絵本の中の主人公たちも、いろいろな困難に直面しますが、諦めずに前に進んでいきます。
+</div>
+<h2>創作の秘密</h2>
+<p>
+なかやさんの絵本は、シンプルながらも深いメッセージが込められています。その創作プロセスについても伺いました。
+</p>
+<div class="interview-q">
+――絵本を作る際のプロセスを教えてください。アイデアはどのように形にしていくのですか？
+</div>
+<div class="interview-a">
+最初は漠然としたイメージやテーマから始まることが多いです。例えば「友情について描きたい」とか「協力することの大切さを伝えたい」といった具合です。そこから、どんなキャラクターが適しているか考えます。キャラクターが決まったら、その子がどんな冒険をするか、どんな問題に直面するか、ストーリーを組み立てていきます。
+<br><br>
+絵と文章は同時に考えることが多いですね。絵本は絵と文章が一体となって物語を伝えるものなので、どちらか一方だけで完結しないようにしています。何度も描き直したり、文章を推敲したりしながら、少しずつ形にしていきます。
+</div>
+<img src="https://readdy.ai/api/search-image?query=A%2520detailed%2520view%2520of%2520an%2520illustrator%2527s%2520desk%2520showing%2520the%2520process%2520of%2520creating%2520a%2520children%2527s%2520picture%2520book.%2520The%2520desk%2520has%2520sketches%252C%2520color%2520tests%252C%2520storyboards%252C%2520and%2520finished%2520illustrations%2520at%2520various%2520stages.%2520Art%2520supplies%2520including%2520watercolors%252C%2520brushes%252C%2520and%2520pencils%2520are%2520neatly%2520arranged.%2520A%2520manuscript%2520with%2520handwritten%2520notes%2520is%2520visible.%2520The%2520workspace%2520appears%2520professional%2520yet%2520creative%2520with%2520good%2520natural%2520lighting.&width=800&height=500&seq=6&orientation=landscape" alt="絵本制作の過程" class="w-full">
+<p class="caption">絵本制作の様々な段階を示す作業机</p>
+<h3>子どもたちの反応</h3>
+<p>
+なかやさんは、読者である子どもたちの反応をとても大切にしているそうです。
+</p>
+<div class="interview-q">
+――子どもたちからの反応で印象に残っているエピソードはありますか？
+</div>
+<div class="interview-a">
+読み聞かせイベントで、一人の男の子が「ぼく、くろくんみたいに役に立ちたい」と言ってくれたことがあります。その子は、クラスで目立たない存在だったそうですが、「くれよんのくろくん」を読んで、自分にもできることがあると思ってくれたようです。そういう反応をいただくと、本当に嬉しいですね。
+<br><br>
+また、「そらまめくん」の絵本を読んだ後、子どもたちが実際に豆を育て始めたという話も聞きます。絵本がきっかけで、子どもたちが何かに興味を持ち、行動を起こしてくれることは、作者として最高の喜びです。
+</div>
+<h2>これからの創作活動</h2>
+<p>
+最後に、なかやさんの今後の創作活動について伺いました。
+</p>
+<div class="interview-q">
+――今後、どのような作品を作っていきたいですか？
+</div>
+<div class="interview-a">
+これからも、子どもたちの心に寄り添う絵本を作っていきたいと思っています。特に、今の時代の子どもたちが直面している問題や悩みを取り上げた作品も作れたらいいなと考えています。例えば、多様性を認め合うことの大切さや、自然環境との共生など、今の子どもたちに伝えたいテーマはたくさんあります。
+<br><br>
+また、「くれよんのくろくん」や「そらまめくん」シリーズの新作も構想中です。長く愛されているキャラクターたちの新しい冒険を、楽しみにしていてください。
+</div>
+<img src="https://readdy.ai/api/search-image?query=A%2520bright%2520and%2520inspiring%2520image%2520of%2520a%2520female%2520Japanese%2520children%2527s%2520book%2520author%2520and%2520illustrator%2520working%2520at%2520her%2520desk%2520with%2520a%2520look%2520of%2520creative%2520concentration.%2520She%2520is%2520surrounded%2520by%2520colorful%2520illustrations%252C%2520sketches%2520of%2520new%2520characters%252C%2520and%2520children%2527s%2520books.%2520The%2520workspace%2520is%2520filled%2520with%2520natural%2520light%2520and%2520has%2520a%2520warm%252C%2520creative%2520atmosphere.%2520Plants%2520and%2520inspirational%2520items%2520are%2520visible%2520in%2520the%2520background.&width=800&height=500&seq=7&orientation=landscape" alt="制作中のなかやみわさん" class="w-full">
+<p class="caption">新作の構想を練るなかやみわさん</p>
+<h2>おわりに</h2>
+<p>
+2時間にわたる対談は、なかやさんの温かな人柄と、子どもたちへの深い愛情が伝わる内容となりました。「くれよんのくろくん」や「そらまめくん」といった作品が多くの子どもたちに愛され続けている理由が、よく理解できる時間でした。
+</p>
+<p>
+なかやさんの絵本には、「自分らしさを大切にする」「友達と協力する」「ものづくりの喜び」など、子どもたちの成長に欠かせない要素がたくさん詰まっています。これからも、子どもたちの心に寄り添う素敵な作品を生み出し続けてくださることでしょう。
+</p>
+<p>
+最後に、貴重なお時間を割いてインタビューに応じてくださったなかやみわさんに、心より感謝申し上げます。
+</p>
+</div>
+<!-- 著者プロフィール -->
+<div class="mt-16 bg-gray-50 p-6 rounded-lg">
+<div class="flex items-start">
+<div class="w-20 h-20 rounded-full overflow-hidden mr-4 flex-shrink-0">
+<img src="https://readdy.ai/api/search-image?query=A%2520professional%2520headshot%2520of%2520a%2520female%2520Japanese%2520children%2527s%2520book%2520author%2520and%2520illustrator%2520in%2520her%252050s%2520with%2520a%2520warm%2520smile%2520and%2520creative%2520appearance.%2520She%2520has%2520medium-length%2520black%2520hair%2520and%2520is%2520wearing%2520casual%2520but%2520professional%2520attire.%2520The%2520background%2520is%2520simple%2520and%2520neutral%252C%2520and%2520the%2520lighting%2520is%2520soft%2520and%2520flattering.&width=200&height=200&seq=8&orientation=squarish" alt="なかやみわ" class="w-full h-full object-cover">
+</div>
+<div>
+<h3 class="text-xl font-bold mb-2">なかや みわ</h3>
+<p class="text-gray-600 mb-3">絵本作家・イラストレーター。1967年生まれ。代表作に「くれよんのくろくん」シリーズ、「そらまめくん」シリーズなど。温かみのある絵と、子どもたちの心に寄り添うストーリーが特徴。数々の絵本賞を受賞し、作品は多くの言語に翻訳されている。</p>
+<div class="flex space-x-3">
+<a href="#" class="text-primary hover:underline">公式サイト</a>
+<a href="#" class="text-primary hover:underline">Twitter</a>
+<a href="#" class="text-primary hover:underline">Instagram</a>
+</div>
+</div>
+</div>
+</div>
+<!-- SNSシェアボタン（下部） -->
+<div class="flex items-center justify-center space-x-4 mt-12 border-t border-b border-gray-200 py-6">
+<span class="text-gray-500">この記事をシェアする：</span>
+<a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-[#1DA1F2] text-white">
+<i class="ri-twitter-x-fill"></i>
+</a>
+<a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-[#1877F2] text-white">
+<i class="ri-facebook-fill"></i>
+</a>
+<a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-[#06C755] text-white">
+<i class="ri-line-fill"></i>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- 関連記事 -->
+<section class="py-12 bg-gray-50">
+<div class="container mx-auto px-4">
+<h2 class="text-2xl font-bold mb-8 text-center">関連記事</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<a href="#" class="block group">
+<div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 group-hover:-translate-y-1">
+<img src="https://readdy.ai/api/search-image?query=A%2520professional%2520photograph%2520of%2520a%2520Japanese%2520male%2520children%2527s%2520book%2520author%2520in%2520his%252040s%2520engaged%2520in%2520a%2520creative%2520workshop%2520with%2520children.%2520He%2520is%2520showing%2520them%2520how%2520to%2520draw%2520or%2520illustrate%2520in%2520a%2520bright%252C%2520colorful%2520classroom%2520setting.%2520The%2520atmosphere%2520is%2520educational%2520and%2520fun%252C%2520with%2520children%2527s%2520artwork%2520visible%2520in%2520the%2520background.&width=400&height=250&seq=9&orientation=landscape" alt="ヨシタケシンスケさんワークショップ" class="w-full h-48 object-cover object-top">
+<div class="p-6">
+<span class="inline-block bg-blue-100 text-blue-800 px-3 py-1 text-xs rounded-full mb-3">イベントレポート</span>
+<h3 class="text-xl font-bold mb-2">ヨシタケシンスケさんと考える「絵本の可能性」</h3>
+<p class="text-gray-600 mb-4">人気絵本作家ヨシタケシンスケさんによる特別ワークショップのレポート。子どもたちと一緒に「もしも」の世界を描きました。</p>
+<div class="flex justify-between items-center">
+<span class="text-gray-500 text-sm">2025年6月10日</span>
+</div>
+</div>
+</div>
+</a>
+<a href="#" class="block group">
+<div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 group-hover:-translate-y-1">
+<img src="https://readdy.ai/api/search-image?query=A%2520colorful%2520display%2520of%2520children%2527s%2520books%2520featuring%2520bean%2520characters%2520and%2520crayon%2520characters%252C%2520arranged%2520attractively%2520in%2520a%2520bookstore%2520or%2520library%2520setting.%2520The%2520books%2520are%2520prominently%2520displayed%2520with%2520related%2520merchandise%2520like%2520stuffed%2520toys%2520of%2520the%2520characters.%2520The%2520setting%2520is%2520bright%2520and%2520inviting%2520with%2520good%2520lighting%2520to%2520showcase%2520the%2520vibrant%2520book%2520covers.&width=400&height=250&seq=10&orientation=landscape" alt="人気絵本シリーズ特集" class="w-full h-48 object-cover object-top">
+<div class="p-6">
+<span class="inline-block bg-green-100 text-green-800 px-3 py-1 text-xs rounded-full mb-3">特集</span>
+<h3 class="text-xl font-bold mb-2">子どもに読んであげたい人気絵本シリーズ10選</h3>
+<p class="text-gray-600 mb-4">長く愛され続ける絵本シリーズを厳選してご紹介。「くれよんのくろくん」や「そらまめくん」シリーズも含む必読の作品たち。</p>
+<div class="flex justify-between items-center">
+<span class="text-gray-500 text-sm">2025年5月25日</span>
+</div>
+</div>
+</div>
+</a>
+<a href="#" class="block group">
+<div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 group-hover:-translate-y-1">
+<img src="https://readdy.ai/api/search-image?query=A%2520warm%2520and%2520engaging%2520scene%2520of%2520a%2520parent%2520reading%2520a%2520picture%2520book%2520to%2520a%2520child%2520in%2520a%2520cozy%2520home%2520setting.%2520The%2520parent%2520and%2520child%2520are%2520sitting%2520together%2520on%2520a%2520comfortable%2520couch%2520or%2520reading%2520nook%2520with%2520soft%2520lighting.%2520Bookshelves%2520with%2520children%2527s%2520books%2520are%2520visible%2520in%2520the%2520background.%2520The%2520atmosphere%2520conveys%2520the%2520special%2520bond%2520created%2520during%2520reading%2520time.&width=400&height=250&seq=11&orientation=landscape" alt="読み聞かせのコツ" class="w-full h-48 object-cover object-top">
+<div class="p-6">
+<span class="inline-block bg-purple-100 text-purple-800 px-3 py-1 text-xs rounded-full mb-3">コラム</span>
+<h3 class="text-xl font-bold mb-2">絵本の読み聞かせで大切にしたい5つのこと</h3>
+<p class="text-gray-600 mb-4">子どもの想像力と言語能力を育む読み聞かせ。効果を最大限に引き出すためのポイントを専門家が解説します。</p>
+<div class="flex justify-between items-center">
+<span class="text-gray-500 text-sm">2025年6月5日</span>
+</div>
+</div>
+</div>
+</a>
+</div>
+</div>
+</section>
+<!-- おすすめ商品 -->
+<section class="py-12">
+<div class="container mx-auto px-4">
+<h2 class="text-2xl font-bold mb-8 text-center">なかやみわさんの絵本・グッズ</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=A%2520professional%2520product%2520photograph%2520of%2520a%2520Japanese%2520children%2527s%2520picture%2520book%2520featuring%2520a%2520black%2520crayon%2520character%2520on%2520the%2520cover.%2520The%2520book%2520is%2520displayed%2520against%2520a%2520clean%2520white%2520background%2520with%2520soft%2520shadows.%2520The%2520cover%2520is%2520colorful%2520and%2520appealing%2520to%2520children%2520with%2520a%2520simple%2520illustration%2520style.&width=300&height=300&seq=12&orientation=squarish" alt="くれよんのくろくん" class="w-full h-64 object-cover object-center">
+<div class="p-4">
+<span class="inline-block bg-blue-100 text-blue-800 px-3 py-1 text-xs rounded-full mb-2">ベストセラー</span>
+<h3 class="text-lg font-bold mb-2">くれよんのくろくん</h3>
+<p class="text-gray-700 font-bold mb-3">¥1,320</p>
+<button class="w-full bg-primary text-white py-2 font-medium !rounded-button whitespace-nowrap">商品詳細</button>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=A%2520professional%2520product%2520photograph%2520of%2520a%2520Japanese%2520children%2527s%2520picture%2520book%2520featuring%2520a%2520cute%2520bean%2520character%2520on%2520the%2520cover.%2520The%2520book%2520is%2520displayed%2520against%2520a%2520clean%2520white%2520background%2520with%2520soft%2520shadows.%2520The%2520cover%2520is%2520colorful%2520and%2520appealing%2520to%2520children%2520with%2520a%2520simple%2520illustration%2520style.&width=300&height=300&seq=13&orientation=squarish" alt="そらまめくんのベッド" class="w-full h-64 object-cover object-center">
+<div class="p-4">
+<span class="inline-block bg-yellow-100 text-yellow-800 px-3 py-1 text-xs rounded-full mb-2">人気商品</span>
+<h3 class="text-lg font-bold mb-2">そらまめくんのベッド</h3>
+<p class="text-gray-700 font-bold mb-3">¥1,320</p>
+<button class="w-full bg-primary text-white py-2 font-medium !rounded-button whitespace-nowrap">商品詳細</button>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=A%2520professional%2520product%2520photograph%2520of%2520a%2520cute%2520plush%2520toy%2520of%2520a%2520black%2520crayon%2520character%2520from%2520a%2520Japanese%2520children%2527s%2520book.%2520The%2520plush%2520toy%2520is%2520displayed%2520against%2520a%2520clean%2520white%2520background%2520with%2520soft%2520shadows.%2520The%2520toy%2520has%2520a%2520simple%2520design%2520with%2520embroidered%2520features%2520and%2520is%2520made%2520of%2520soft%2520fabric.&width=300&height=300&seq=14&orientation=squarish" alt="くろくんぬいぐるみ" class="w-full h-64 object-cover object-center">
+<div class="p-4">
+<span class="inline-block bg-purple-100 text-purple-800 px-3 py-1 text-xs rounded-full mb-2">限定品</span>
+<h3 class="text-lg font-bold mb-2">くろくん ぬいぐるみ</h3>
+<p class="text-gray-700 font-bold mb-3">¥2,750</p>
+<button class="w-full bg-primary text-white py-2 font-medium !rounded-button whitespace-nowrap">商品詳細</button>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=A%2520professional%2520product%2520photograph%2520of%2520a%2520set%2520of%2520colorful%2520children%2527s%2520socks%2520featuring%2520crayon%2520characters%2520from%2520a%2520Japanese%2520picture%2520book.%2520The%2520socks%2520are%2520arranged%2520neatly%2520against%2520a%2520clean%2520white%2520background%2520with%2520soft%2520shadows.%2520The%2520socks%2520have%2520cute%2520designs%2520and%2520bright%2520colors%2520appealing%2520to%2520children.&width=300&height=300&seq=15&orientation=squarish" alt="くれよんのくろくん靴下" class="w-full h-64 object-cover object-center">
+<div class="p-4">
+<span class="inline-block bg-green-100 text-green-800 px-3 py-1 text-xs rounded-full mb-2">新商品</span>
+<h3 class="text-lg font-bold mb-2">くれよんのくろくん 靴下</h3>
+<p class="text-gray-700 font-bold mb-3">¥1,100</p>
+<button class="w-full bg-primary text-white py-2 font-medium !rounded-button whitespace-nowrap">商品詳細</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- イベント情報 -->
+<section class="py-12 bg-gray-50">
+<div class="container mx-auto px-4">
+<h2 class="text-2xl font-bold mb-8 text-center">なかやみわさん関連イベント</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+<div class="p-6">
+<div class="flex justify-between items-center mb-3">
+<span class="inline-block bg-red-100 text-red-800 px-3 py-1 text-xs rounded-full">サイン会</span>
+<span class="text-gray-500 text-sm">東京都</span>
+</div>
+<h3 class="text-xl font-bold mb-2">なかやみわさん 新刊サイン会</h3>
+<div class="flex items-center text-gray-600 mb-2">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-calendar-line"></i>
+</div>
+<span>2025年7月15日(火) 14:00〜16:00</span>
+</div>
+<div class="flex items-center text-gray-600 mb-2">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-map-pin-line"></i>
+</div>
+<span>有楽町 丸の内ブックセンター</span>
+</div>
+<p class="text-gray-600 mb-4">
+新刊「そらまめくんとめだかのこ」発売を記念したサイン会です。先着50名様に特製ブックカバーをプレゼント！
+</p>
+<button class="w-full bg-primary text-white py-2 font-medium !rounded-button whitespace-nowrap">イベント詳細</button>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+<div class="p-6">
+<div class="flex justify-between items-center mb-3">
+<span class="inline-block bg-blue-100 text-blue-800 px-3 py-1 text-xs rounded-full">ワークショップ</span>
+<span class="text-gray-500 text-sm">大阪府</span>
+</div>
+<h3 class="text-xl font-bold mb-2">なかやみわさんと作る！オリジナルキャラクター</h3>
+<div class="flex items-center text-gray-600 mb-2">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-calendar-line"></i>
+</div>
+<span>2025年7月23日(水) 10:30〜12:00</span>
+</div>
+<div class="flex items-center text-gray-600 mb-2">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-map-pin-line"></i>
+</div>
+<span>PICO豊中</span>
+</div>
+<p class="text-gray-600 mb-4">
+なかやみわさんと一緒に、オリジナルキャラクターを作るワークショップ。対象年齢：5歳〜小学生。保護者同伴必須。
+</p>
+<button class="w-full bg-primary text-white py-2 font-medium !rounded-button whitespace-nowrap">イベント詳細</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ニュースレター登録 -->
+<section class="py-16 bg-primary text-white">
+<div class="container mx-auto px-4">
+<div class="max-w-2xl mx-auto text-center">
+<h2 class="text-2xl font-bold mb-4">親子の時間研究所ニュースレター会員（無料）</h2>
+<p class="mb-8">新作絵本やグッズのご紹介や作家インタビュー、お住まいの地域でのイベント案内など、カルチャーあふれるニュースレターを定期的にお届けします。</p>
+<form class="flex flex-col gap-4 max-w-lg mx-auto" id="newsletterForm">
+<div class="flex flex-col sm:flex-row gap-4">
+<input type="email" name="email" placeholder="メールアドレス" required class="px-4 py-3 rounded-lg border-none text-gray-800 w-full text-sm" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+<select name="prefecture" required class="px-4 py-3 rounded-lg border-none text-gray-800 w-full sm:w-40 text-sm appearance-none pr-8 bg-white bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M7%2010l5%205%205-5H7z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:24px] bg-[calc(100%-8px)_center] bg-no-repeat">
+<option value="" disabled selected>都道府県</option>
+<option value="北海道">北海道</option>
+<option value="青森県">青森県</option>
+<option value="岩手県">岩手県</option>
+<option value="宮城県">宮城県</option>
+<option value="秋田県">秋田県</option>
+<option value="山形県">山形県</option>
+<option value="福島県">福島県</option>
+<option value="茨城県">茨城県</option>
+<option value="栃木県">栃木県</option>
+<option value="群馬県">群馬県</option>
+<option value="埼玉県">埼玉県</option>
+<option value="千葉県">千葉県</option>
+<option value="東京都">東京都</option>
+<option value="神奈川県">神奈川県</option>
+<option value="新潟県">新潟県</option>
+<option value="富山県">富山県</option>
+<option value="石川県">石川県</option>
+<option value="福井県">福井県</option>
+<option value="山梨県">山梨県</option>
+<option value="長野県">長野県</option>
+<option value="岐阜県">岐阜県</option>
+<option value="静岡県">静岡県</option>
+<option value="愛知県">愛知県</option>
+<option value="三重県">三重県</option>
+<option value="滋賀県">滋賀県</option>
+<option value="京都府">京都府</option>
+<option value="大阪府">大阪府</option>
+<option value="兵庫県">兵庫県</option>
+<option value="奈良県">奈良県</option>
+<option value="和歌山県">和歌山県</option>
+<option value="鳥取県">鳥取県</option>
+<option value="島根県">島根県</option>
+<option value="岡山県">岡山県</option>
+<option value="広島県">広島県</option>
+<option value="山口県">山口県</option>
+<option value="徳島県">徳島県</option>
+<option value="香川県">香川県</option>
+<option value="愛媛県">愛媛県</option>
+<option value="高知県">高知県</option>
+<option value="福岡県">福岡県</option>
+<option value="佐賀県">佐賀県</option>
+<option value="長崎県">長崎県</option>
+<option value="熊本県">熊本県</option>
+<option value="大分県">大分県</option>
+<option value="宮崎県">宮崎県</option>
+<option value="鹿児島県">鹿児島県</option>
+<option value="沖縄県">沖縄県</option>
+</select>
+</div>
+<button type="submit" class="bg-white text-primary px-6 py-3 rounded-lg font-medium hover:bg-yellow-300 hover:text-white transition-colors duration-300 whitespace-nowrap !rounded-button">登録する</button>
+</form>
+<div id="registrationMessage" class="hidden mt-4 py-2 px-4 rounded-lg text-sm"></div>
+<p class="text-sm mt-4 text-white/80">※登録は無料です。いつでも解除できます。</p>
+</div>
+</div>
+</section>
+<!-- フッター -->
+<footer class="bg-gray-800 text-white py-12">
+<div class="container mx-auto px-4">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+<div>
+<h3 class="mb-4">
+<img src="https://public.readdy.ai/ai/img_res/35857e6b-21d5-41ce-9f29-aa2ddfa06fc3.png" alt="親子の時間研究所" class="h-12 w-auto">
+</h3>
+<p class="text-gray-400 mb-4">創造性と感性を育むライフスタイルメディア</p>
+<div class="flex space-x-4">
+<a href="#" class="text-gray-400 hover:text-white">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-twitter-x-line ri-lg"></i>
+</div>
+</a>
+<a href="#" class="text-gray-400 hover:text-white">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-instagram-line ri-lg"></i>
+</div>
+</a>
+<a href="#" class="text-gray-400 hover:text-white">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-facebook-circle-line ri-lg"></i>
+</div>
+</a>
+<a href="#" class="text-gray-400 hover:text-white">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-youtube-line ri-lg"></i>
+</div>
+</a>
+</div>
+</div>
+<div>
+<h3 class="font-bold text-lg mb-4">コンテンツ</h3>
+<ul class="space-y-2">
+<li><a href="#" class="text-gray-400 hover:text-white">おかいもの</a></li>
+<li><a href="https://ehonyasan-moe.oyakonojikanlabo.jp/socks/" data-readdy="true" class="text-gray-400 hover:text-white">絵本の靴下</a></li>
+<li><a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/a0ecee2c-20f1-44ea-8d28-c9ad8978b25e" data-readdy="true" class="text-gray-400 hover:text-white">イベント</a></li>
+</ul>
+</div>
+<div>
+<h3 class="font-bold text-lg mb-4">豊中PICO</h3>
+<ul class="space-y-2">
+<li><a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/a72cea04-19cf-408c-9717-ee31ecb57153" data-readdy="true" class="text-gray-400 hover:text-white">絵本サロン</a></li>
+<li><a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/a72cea04-19cf-408c-9717-ee31ecb57153" data-readdy="true" class="text-gray-400 hover:text-white">キッズスクール</a></li>
+<li><a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/a72cea04-19cf-408c-9717-ee31ecb57153" data-readdy="true" class="text-gray-400 hover:text-white">カルチャースクール</a></li>
+<li><a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/a72cea04-19cf-408c-9717-ee31ecb57153" data-readdy="true" class="text-gray-400 hover:text-white">レンタルスペース</a></li>
+<li><a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/a72cea04-19cf-408c-9717-ee31ecb57153" data-readdy="true" class="text-gray-400 hover:text-white">アクセス</a></li>
+</ul>
+</div>
+<div>
+<h3 class="font-bold text-lg mb-4">企業情報</h3>
+<ul class="space-y-2">
+<li><a href="" data-readdy="true" class="text-gray-400 hover:text-white">会社概要</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white">プライバシーポリシー</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white">特定商取引法に基づく表記</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white">お問い合わせ</a></li>
+</ul>
+</div>
+</div>
+<div class="border-t border-gray-700 pt-8 text-center text-gray-500">
+<p>&copy; 2025 親子の時間研究所 All Rights Reserved.</p>
+</div>
+</div>
+</footer>
+<script id="headerManager">
+document.addEventListener('DOMContentLoaded', function() {
+const newsletterForm = document.getElementById('newsletterForm');
+const registrationMessage = document.getElementById('registrationMessage');
+
+if (newsletterForm) {
+  newsletterForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = this.email.value;
+    const prefecture = this.prefecture.value;
+    
+    if (email && prefecture) {
+      registrationMessage.textContent = '登録が完了しました。ご登録ありがとうございます。';
+      registrationMessage.className = 'mt-4 py-2 px-4 rounded-lg text-sm bg-white text-primary';
+      registrationMessage.classList.remove('hidden');
+      this.reset();
+      
+      setTimeout(() => {
+        registrationMessage.classList.add('hidden');
+      }, 3000);
+    }
+  });
+}
+
+const searchToggle = document.getElementById('searchToggle');
+const searchPanel = document.getElementById('searchPanel');
+const searchInput = document.getElementById('searchInput');
+const searchResults = document.getElementById('searchResults');
+const searchResultsList = document.getElementById('searchResultsList');
+const sampleResults = [
+{title: 'なかやみわさんとの"ものづくり"対談', type: 'インタビュー', date: '2025-06-18'},
+{title: 'ヨシタケシンスケさんと考える「絵本の可能性」', type: 'イベントレポート', date: '2025-06-10'},
+{title: '子どもに読んであげたい人気絵本シリーズ10選', type: '特集', date: '2025-05-25'},
+{title: '絵本の読み聞かせで大切にしたい5つのこと', type: 'コラム', date: '2025-06-05'},
+{title: '夏休み親子ワークショップ特集', type: '特集', date: '2025-06-15'}
+];
+function toggleSearch() {
+searchPanel.classList.toggle('hidden');
+if (!searchPanel.classList.contains('hidden')) {
+searchInput.focus();
+}
+}
+function handleSearch(query) {
+if (query.length > 0) {
+searchResults.classList.remove('hidden');
+const filteredResults = sampleResults.filter(result =>
+result.title.toLowerCase().includes(query.toLowerCase()) ||
+result.type.toLowerCase().includes(query.toLowerCase())
+);
+displayResults(filteredResults);
+} else {
+searchResults.classList.add('hidden');
+}
+}
+function displayResults(results) {
+searchResultsList.innerHTML = results.length > 0 ? results.map(result => `
+<a href="#" class="block p-3 hover:bg-gray-50 rounded-lg">
+<div class="flex items-center justify-between">
+<div>
+<h5 class="text-sm font-medium text-gray-900">${result.title}</h5>
+<div class="flex items-center gap-2 mt-1">
+<span class="text-xs text-gray-500">${result.type}</span>
+<span class="text-xs text-gray-400">${result.date}</span>
+</div>
+</div>
+<div class="w-5 h-5 flex items-center justify-center text-gray-400">
+<i class="ri-arrow-right-line"></i>
+</div>
+</div>
+</a>
+`).join('') : '<p class="text-sm text-gray-500 p-3">検索結果が見つかりませんでした</p>';
+}
+searchToggle.addEventListener('click', toggleSearch);
+searchInput.addEventListener('input', (e) => handleSearch(e.target.value));
+document.addEventListener('click', (e) => {
+if (!searchPanel.contains(e.target) && !searchToggle.contains(e.target)) {
+searchPanel.classList.add('hidden');
+}
+});
+// 画像のライトボックス表示
+const articleImages = document.querySelectorAll('.article-content img');
+articleImages.forEach(img => {
+img.addEventListener('click', function() {
+const lightbox = document.createElement('div');
+lightbox.className = 'fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4';
+const imgClone = this.cloneNode(true);
+imgClone.className = 'max-h-[90vh] max-w-[90vw] object-contain';
+lightbox.appendChild(imgClone);
+document.body.appendChild(lightbox);
+lightbox.addEventListener('click', function() {
+this.remove();
+});
+});
+img.style.cursor = 'pointer';
+});
+});
+</script>
+</body>
+</html>

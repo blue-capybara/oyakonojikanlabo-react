@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>親子の時間研究所</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#c41e1e',secondary:'#f9d423'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Noto Sans JP', sans-serif;
+color: #333;
+}
+.hero-gradient {
+background: linear-gradient(90deg, #c41e1e 0%, rgba(196, 30, 30, 0.8) 100%);
+}
+input:focus {
+outline: none;
+}
+</style>
+</head>
+<body class="bg-white">
+<!-- ヘッダー -->
+<header class="bg-primary text-white fixed top-0 left-0 right-0 z-50 shadow-md">
+<div class="container mx-auto px-4">
+<div class="py-3 flex justify-between items-center">
+<div class="w-24"></div>
+<h1 class="flex justify-center">
+<a href="/">
+<img src="https://public.readdy.ai/ai/img_res/f99757ef-08c3-43d5-b778-d956445f2972.png" alt="親子の時間研究所" class="h-8 w-auto">
+</a>
+</h1>
+<div class="flex items-center space-x-4">
+<div class="relative">
+<button id="searchToggle" class="w-8 h-8 flex items-center justify-center text-white hover:text-gray-200">
+<i class="ri-search-line ri-lg"></i>
+</button>
+<div id="searchPanel" class="hidden absolute right-0 top-12 w-80 bg-white rounded-lg shadow-lg p-4">
+<div class="relative">
+<input type="text" id="searchInput" placeholder="キーワードを入力" class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-primary/20">
+<div class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 flex items-center justify-center text-gray-400">
+<i class="ri-search-line"></i>
+</div>
+</div>
+<div id="searchResults" class="mt-4 max-h-80 overflow-y-auto hidden">
+<div class="space-y-4">
+<div class="border-b pb-2">
+<h4 class="text-sm font-medium text-gray-900 mb-1">カテゴリー</h4>
+<div class="flex flex-wrap gap-2">
+<button class="px-3 py-1 bg-gray-100 text-sm rounded-full hover:bg-primary hover:text-white">絵本</button>
+<button class="px-3 py-1 bg-gray-100 text-sm rounded-full hover:bg-primary hover:text-white">イベント</button>
+<button class="px-3 py-1 bg-gray-100 text-sm rounded-full hover:bg-primary hover:text-white">インタビュー</button>
+</div>
+</div>
+<div class="space-y-3">
+<h4 class="text-sm font-medium text-gray-900">検索結果</h4>
+<div id="searchResultsList"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-user-line ri-lg"></i>
+</div>
+</div>
+</div>
+<nav class="flex justify-center space-x-6 sm:space-x-12 py-3">
+<a href="https://shop.oyakonojikanlabo.jp/" data-readdy="true" class="text-white hover:text-gray-200 font-medium text-sm tracking-tighter whitespace-nowrap px-2">おかいもの</a>
+<a href="https://ehonyasan-moe.oyakonojikanlabo.jp/socks/" data-readdy="true" class="text-white hover:text-gray-200 font-medium text-sm tracking-tighter whitespace-nowrap px-2">絵本のくつした</a>
+<a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/a0ecee2c-20f1-44ea-8d28-c9ad8978b25e" data-readdy="true" class="text-white hover:text-gray-200 font-medium text-sm tracking-tighter whitespace-nowrap px-2">イベント</a>
+<a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/a72cea04-19cf-408c-9717-ee31ecb57153" data-readdy="true" class="text-white hover:text-gray-200 font-medium text-sm tracking-tighter whitespace-nowrap px-2">PICO豊中</a>
+</nav>
+</div>
+</header>
+<!-- メインビジュアル -->
+<section class="relative min-h-[800px] overflow-hidden bg-gradient-to-br from-primary/90 to-primary">
+<div class="container mx-auto px-4 relative">
+<div class="flex flex-col lg:flex-row items-center justify-between min-h-[800px] py-20">
+<div class="w-full lg:w-1/2 text-white z-10">
+<div class="flex gap-2 mb-6">
+<span class="inline-block bg-white/20 text-white px-4 py-1 text-sm rounded-full">ヨシタケシンスケ</span>
+<span class="inline-block bg-white/20 text-white px-4 py-1 text-sm rounded-full">特集</span>
+</div>
+<h2 class="text-3xl lg:text-5xl font-bold mb-8 leading-tight animate-fade-in">
+絵本の懐は深いぞ。
+</h2>
+<p class="text-lg lg:text-xl mb-8 leading-relaxed opacity-90">開催記念イベントとして、ヨシタケシンスケさんとのミニトークがおこなわれました。このときの話がおもしろかったので、「親子時間」でもご紹介します。テーマは「絵本の懐の深さについて」です。</p>
+<div class="flex flex-col lg:flex-row gap-4">
+<button class="bg-white text-primary px-10 py-4 font-bold !rounded-button whitespace-nowrap hover:bg-yellow-300 hover:text-white transition-all duration-300 transform hover:scale-105 shadow-lg">記事を読む</button>
+</div>
+</div>
+<div class="w-full lg:w-1/2 mt-12 lg:mt-0 relative z-10">
+<div class="relative">
+<a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/b40f46a8-f4fa-4253-8b18-64ba92f9e129" data-readdy="true" class="block">
+<img src="https://static.readdy.ai/image/60a8b97af392af7bc8fe2dab5eed4ff2/45ad2b081cb92f4b255ef95c9f7e6f99.png" alt="夏休み絵本特集" class="relative rounded-2xl shadow-2xl transform hover:scale-105 transition-transform duration-500">
+</a>
+</div>
+</div>
+</div>
+</div>
+<style>
+.animate-fade-in {
+animation: fadeIn 1.5s ease-out forwards;
+}
+@keyframes fadeIn {
+from { opacity: 0; transform: translateY(20px); }
+to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</section>
+</div>
+</div>
+</section>
+<!-- 特集セクション -->
+<section class="py-16 bg-gray-50">
+<div class="container mx-auto px-4">
+<h2 class="text-3xl font-bold mb-8 text-center">特集</h2>
+<div class="grid grid-cols-1 min-[600px]:grid-cols-2 lg:grid-cols-3 gap-8 [&>*:last-child]:min-[600px]:col-span-2 [&>*:last-child]:lg:col-span-1">
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+<img src="https://static.readdy.ai/image/60a8b97af392af7bc8fe2dab5eed4ff2/921de84646a0d38dfa688f1d826685e6.jpeg" alt="絵本特集" class="w-full h-48 object-cover object-top">
+<div class="p-6">
+<span class="inline-block bg-blue-100 text-blue-800 px-3 py-1 text-xs rounded-full mb-3">特集</span>
+<h3 class="text-xl font-bold mb-2">なかやみわさんとの”ものづくり”対談</h3>
+<p class="text-gray-600 mb-4">子どもたちが大好きな絵本「くれよんのくろくん」と「そらまめくん」。どちらも絵本作家なかや みわさんの作品です。</p>
+<a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/f6e0b9f0-d030-4063-8881-e9b71fb58587" data-readdy="true" class="text-primary font-medium flex items-center">
+詳しく見る
+<div class="w-5 h-5 flex items-center justify-center ml-1">
+<i class="ri-arrow-right-line"></i>
+</div>
+</a>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+<img src="https://static.readdy.ai/image/60a8b97af392af7bc8fe2dab5eed4ff2/39c218e1ea5141eda8c0b5015336b212.jpeg" alt="親子ワークショップ" class="w-full h-48 object-cover object-top">
+<div class="p-6">
+<span class="inline-block bg-blue-100 text-blue-800 px-3 py-1 text-xs rounded-full mb-3">特集</span>
+<h3 class="text-xl font-bold mb-2">画家・湯浅景子さんの版画。</h3>
+<p class="text-gray-600 mb-4">「weeksdays」がひさしぶりに
+アート作品の販売をします。
+今回は、画家・湯浅景子さんの版画。</p>
+<a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/f6e0b9f0-d030-4063-8881-e9b71fb58587" data-readdy="true" class="text-primary font-medium flex items-center">
+詳しく見る
+<div class="w-5 h-5 flex items-center justify-center ml-1">
+<i class="ri-arrow-right-line"></i>
+</div>
+</a>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=Educational%20wooden%20toys%20and%20learning%20materials%20arranged%20neatly%20on%20a%20white%20surface.%20The%20image%20should%20showcase%20colorful%2C%20high-quality%20childrens%20toys%20that%20promote%20development%20and%20creativity.%20Clean%2C%20professional%20product%20photography%20style.&width=400&height=250&seq=4&orientation=landscape" alt="知育玩具特集" class="w-full h-48 object-cover object-top">
+<div class="p-6">
+<span class="inline-block bg-blue-100 text-blue-800 px-3 py-1 text-xs rounded-full mb-3">特集</span>
+<h3 class="text-xl font-bold mb-2">年齢別 おすすめ知育玩具</h3>
+<p class="text-gray-600 mb-4">0歳から6歳まで、発達段階に合わせた知育玩具を専門家が厳選。子どもの好奇心と能力を伸ばす商品をご紹介します。</p>
+<a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/f6e0b9f0-d030-4063-8881-e9b71fb58587" data-readdy="true" class="text-primary font-medium flex items-center">
+詳しく見る
+<div class="w-5 h-5 flex items-center justify-center ml-1">
+<i class="ri-arrow-right-line"></i>
+</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- よみものセクション -->
+<section class="py-16">
+<div class="container mx-auto px-4">
+<div class="flex justify-between items-center mb-8">
+<h2 class="text-3xl font-bold">記事一覧</h2>
+<a href="#" class="text-primary font-medium flex items-center">
+すべて見る
+<div class="w-5 h-5 flex items-center justify-center ml-1">
+<i class="ri-arrow-right-line"></i>
+</div>
+</a>
+</div>
+<div class="grid grid-cols-1 min-[600px]:grid-cols-2 lg:grid-cols-3 gap-8 [&>*:last-child]:min-[600px]:col-span-2 [&>*:last-child]:lg:col-span-1">
+<a href="#" class="block hover:cursor-pointer group">
+<div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 group-hover:-translate-y-1">
+<img src="https://readdy.ai/api/search-image?query=A%20cozy%20reading%20corner%20with%20bookshelves%20filled%20with%20childrens%20books%2C%20comfortable%20seating%2C%20and%20soft%20lighting.%20The%20space%20should%20look%20inviting%20and%20perfect%20for%20parent-child%20reading%20time.&width=400&height=250&seq=5&orientation=landscape" alt="インタビュー記事" class="w-full h-48 object-cover object-top">
+<div class="p-6">
+<div class="flex gap-2 mb-3">
+<span class="inline-block bg-purple-100 text-purple-800 px-3 py-1 text-xs rounded-full">インタビュー</span>
+<span class="inline-block bg-yellow-100 text-yellow-800 px-3 py-1 text-xs rounded-full">特集</span>
+</div>
+<h3 class="text-xl font-bold mb-2 line-clamp-1" style="max-width: 30ch;">絵本作家 佐藤まりこさん</h3>
+<p class="text-gray-600 mb-4">人気シリーズ「もりのともだち」の作者が語る、創作の秘密と子どもたちへのメッセージ。</p>
+<div class="flex justify-between items-center">
+<span class="text-gray-500 text-sm">2025年6月5日</span>
+</div>
+</div>
+</div>
+</a>
+<a href="#" class="block hover:cursor-pointer group">
+<div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 group-hover:-translate-y-1">
+<img src="https://readdy.ai/api/search-image?query=A%20parent%20reading%20a%20book%20with%20a%20child%2C%20both%20looking%20engaged%20and%20happy.%20The%20scene%20should%20be%20warm%20and%20intimate%2C%20showing%20the%20special%20bond%20created%20during%20reading%20time.%20Natural%20lighting%20and%20comfortable%20home%20setting.&width=400&height=250&seq=6&orientation=landscape" alt="コラム記事" class="w-full h-48 object-cover object-top">
+<div class="p-6">
+<span class="inline-block bg-blue-100 text-blue-800 px-3 py-1 text-xs rounded-full mb-3">コラム</span>
+<h3 class="text-xl font-bold mb-2">寝る前の読み聞かせが子どもに与える影響</h3>
+<p class="text-gray-600 mb-4">発達心理学の観点から見る、就寝前の読み聞かせの重要性と効果的な方法について解説します。</p>
+<div class="flex justify-between items-center">
+<span class="text-gray-500 text-sm">2025年6月8日</span>
+</div>
+</div>
+</div>
+</a>
+<a href="#" class="block hover:cursor-pointer group">
+<div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 group-hover:-translate-y-1">
+<img src="https://readdy.ai/api/search-image?query=A%20collection%20of%20new%20childrens%20books%20arranged%20attractively%2C%20showing%20their%20colorful%20covers.%20The%20image%20should%20look%20like%20a%20curated%20selection%20of%20recent%20publications%2C%20professionally%20photographed%20with%20good%20lighting.&width=400&height=250&seq=7&orientation=landscape" alt="レビュー記事" class="w-full h-48 object-cover object-top">
+<div class="p-6">
+<span class="inline-block bg-green-100 text-green-800 px-3 py-1 text-xs rounded-full mb-3">レビュー</span>
+<h3 class="text-xl font-bold mb-2">2025年上半期 注目の新刊絵本5選</h3>
+<p class="text-gray-600 mb-4">今年前半に出版された絵本の中から、特に評価の高い作品をピックアップしてレビューします。</p>
+<div class="flex justify-between items-center">
+<span class="text-gray-500 text-sm">2025年6月10日</span>
+</div>
+</div>
+</div>
+</a>
+</div>
+</div>
+</section>
+<!-- イベントセクション -->
+<section class="py-16 bg-gray-50">
+<div class="container mx-auto px-4">
+<div class="flex flex-col min-[600px]:flex-row justify-between items-start min-[600px]:items-center gap-4 min-[600px]:gap-0 mb-8">
+<h2 class="text-3xl font-bold">全国の絵本アートイベント情報</h2>
+<a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/a0ecee2c-20f1-44ea-8d28-c9ad8978b25e" data-readdy="true" class="text-primary font-medium flex items-center whitespace-nowrap">
+イベントページへ
+<div class="w-5 h-5 flex items-center justify-center ml-1">
+<i class="ri-arrow-right-line"></i>
+</div>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+<img src="https://static.readdy.ai/image/60a8b97af392af7bc8fe2dab5eed4ff2/bf36d3a66d2c4495d815daab6a95c131.png" alt="絵本読み聞かせイベント" class="w-full h-48 object-cover object-top">
+<div class="p-6">
+<div class="flex justify-between items-center mb-3">
+<span class="inline-block bg-red-100 text-red-800 px-3 py-1 text-xs rounded-full">作家イベント</span>
+<span class="text-gray-500 text-sm">東京都</span>
+</div>
+<h3 class="text-xl font-bold mb-2">山田ゆうこさん 絵本読み聞かせ会</h3>
+<div class="flex items-center text-gray-600 mb-2">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-calendar-line"></i>
+</div>
+<span>2025年6月20日(金) 14:00〜15:30</span>
+</div>
+<div class="flex items-center text-gray-600 mb-4">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-map-pin-line"></i>
+</div>
+<span>丸の内ブックセンター</span>
+</div>
+<a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/45e70a30-8221-4d12-9c00-f69d5e683d85" data-readdy="true" class="block">
+<button class="w-full bg-primary text-white py-2 font-medium !rounded-button whitespace-nowrap">イベント詳細</button>
+</a>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=An%20art%20exhibition%20featuring%20childrens%20book%20illustrations%2C%20with%20framed%20artwork%20displayed%20on%20walls%20and%20visitors%20viewing%20the%20pieces.%20The%20space%20should%20look%20like%20a%20professional%20gallery%20with%20good%20lighting.&width=400&height=250&seq=9&orientation=landscape" alt="原画展" class="w-full h-48 object-cover object-top">
+<div class="p-6">
+<div class="flex justify-between items-center mb-3">
+<span class="inline-block bg-blue-100 text-blue-800 px-3 py-1 text-xs rounded-full">原画展</span>
+<span class="text-gray-500 text-sm">大阪府</span>
+</div>
+<h3 class="text-xl font-bold mb-2">「動物たちの世界」絵本原画展</h3>
+<div class="flex items-center text-gray-600 mb-2">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-calendar-line"></i>
+</div>
+<span>2025年7月1日(火)〜7月15日(火)</span>
+</div>
+<div class="flex items-center text-gray-600 mb-4">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-map-pin-line"></i>
+</div>
+<span>大阪市立美術館</span>
+</div>
+<a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/45e70a30-8221-4d12-9c00-f69d5e683d85" data-readdy="true" class="block">
+<button class="w-full bg-primary text-white py-2 font-medium !rounded-button whitespace-nowrap">イベント詳細</button>
+</a>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=A%20workshop%20setting%20with%20children%20and%20parents%20engaged%20in%20a%20creative%20activity%20together%2C%20such%20as%20making%20crafts%20related%20to%20a%20childrens%20book.%20The%20space%20should%20look%20organized%20with%20art%20supplies%20and%20a%20friendly%20instructor.&width=400&height=250&seq=10&orientation=landscape" alt="ワークショップ" class="w-full h-48 object-cover object-top">
+<div class="p-6">
+<div class="flex justify-between items-center mb-3">
+<span class="inline-block bg-green-100 text-green-800 px-3 py-1 text-xs rounded-full">ワークショップ</span>
+<span class="text-gray-500 text-sm">愛知県</span>
+</div>
+<h3 class="text-xl font-bold mb-2">親子で作る！絵本の主人公フィギュア</h3>
+<div class="flex items-center text-gray-600 mb-2">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-calendar-line"></i>
+</div>
+<span>2025年6月25日(水) 10:00〜12:00</span>
+</div>
+<div class="flex items-center text-gray-600 mb-4">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-map-pin-line"></i>
+</div>
+<span>名古屋市児童文化センター</span>
+</div>
+<button id="reservationBtn" class="w-full bg-primary text-white py-2 font-medium !rounded-button whitespace-nowrap">イベント詳細</button>
+<div id="reservationModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+<div class="bg-white rounded-lg w-full max-w-2xl mx-4 overflow-hidden">
+<div class="p-6 border-b">
+<div class="flex justify-between items-center">
+<h3 class="text-xl font-bold">ワークショップ予約</h3>
+<button id="closeModal" class="text-gray-500 hover:text-gray-700">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-close-line ri-lg"></i>
+</div>
+</button>
+</div>
+</div>
+<form id="reservationForm" class="p-6">
+<div class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">お名前</label>
+<input type="text" name="name" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary/20 text-sm" placeholder="山田 花子">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">お子様の年齢</label>
+<input type="number" name="childAge" required min="0" max="12" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary/20 text-sm" placeholder="6">
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">連絡先（メールアドレス）</label>
+<input type="email" name="email" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary/20 text-sm" placeholder="example@email.com">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">参加人数</label>
+<div class="flex items-center space-x-4">
+<span class="text-sm">大人</span>
+<select name="adultCount" required class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary/20 text-sm">
+<option value="1">1名</option>
+<option value="2">2名</option>
+<option value="3">3名</option>
+</select>
+<span class="text-sm">子ども</span>
+<select name="childCount" required class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary/20 text-sm">
+<option value="1">1名</option>
+<option value="2">2名</option>
+<option value="3">3名</option>
+</select>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">開催日時</label>
+<div class="bg-gray-50 p-4 rounded-lg">
+<p class="text-sm">2025年6月25日(水) 10:00〜12:00</p>
+<p class="text-sm text-gray-500 mt-1">※当日は10分前までにお越しください</p>
+</div>
+</div>
+<div>
+<h4 class="text-sm font-medium text-gray-700 mb-2">注意事項</h4>
+<div class="bg-gray-50 p-4 rounded-lg text-sm space-y-2">
+<p>・キャンセルは3日前までにご連絡ください</p>
+<p>・汚れても良い服装でお越しください</p>
+<p>・アレルギーをお持ちの方は事前にご相談ください</p>
+</div>
+</div>
+<div class="flex items-start">
+<input type="checkbox" id="privacyCheck" name="privacy" required class="mt-1">
+<label for="privacyCheck" class="ml-2 text-sm text-gray-600">
+<a href="#" class="text-primary hover:underline">プライバシーポリシー</a>に同意します
+</label>
+</div>
+</div>
+<div class="mt-8 flex justify-end space-x-4">
+<button type="button" id="cancelReservation" class="px-6 py-2 border border-gray-300 text-gray-700 !rounded-button whitespace-nowrap hover:bg-gray-50">
+キャンセル
+</button>
+<button type="submit" class="px-6 py-2 bg-primary text-white !rounded-button whitespace-nowrap hover:bg-primary/90">
+予約を確定する
+</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 親子の時間研究所とは？ -->
+<section class="py-16 bg-gray-50">
+<div class="container mx-auto px-4">
+<div class="flex flex-col lg:flex-row items-center gap-12">
+<div class="w-full lg:w-1/2">
+<h2 class="text-3xl font-bold mb-6">親子の時間研究所とは？</h2>
+<div class="space-y-4 text-gray-600">
+<p>親子の時間研究所は、子どもたちの創造性と感性を育むことを目指す、絵本とアートのライフスタイルメディアです。</p>
+<p>絵本を通じて、子どもたちの想像力を育み、アートを通じて感性を磨き、親子で共に成長できる場を提供しています。</p>
+<div class="grid grid-cols-2 gap-6 mt-8">
+<div class="flex items-start">
+<div class="w-8 h-8 flex items-center justify-center text-primary">
+<i class="ri-book-open-line ri-lg"></i>
+</div>
+<div class="ml-3">
+<h3 class="font-bold mb-2">絵本セレクト</h3>
+<p class="text-sm">専門家が厳選した良質な絵本をご紹介</p>
+</div>
+</div>
+<div class="flex items-start">
+<div class="w-8 h-8 flex items-center justify-center text-primary">
+<i class="ri-palette-line ri-lg"></i>
+</div>
+<div class="ml-3">
+<h3 class="font-bold mb-2">アート体験</h3>
+<p class="text-sm">感性を育むアートプログラム</p>
+</div>
+</div>
+<div class="flex items-start">
+<div class="w-8 h-8 flex items-center justify-center text-primary">
+<i class="ri-group-line ri-lg"></i>
+</div>
+<div class="ml-3">
+<h3 class="font-bold mb-2">コミュニティ</h3>
+<p class="text-sm">親子の学び合いの場を提供</p>
+</div>
+</div>
+<div class="flex items-start">
+<div class="w-8 h-8 flex items-center justify-center text-primary">
+<i class="ri-store-line ri-lg"></i>
+</div>
+<div class="ml-3">
+<h3 class="font-bold mb-2">直営店PICO</h3>
+<p class="text-sm">リアルな体験の場を展開</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full lg:w-1/2">
+<img src="https://readdy.ai/api/search-image?query=A%20warm%20and%20inviting%20scene%20of%20parents%20and%20children%20engaged%20in%20creative%20activities%20together%20in%20a%20modern%2C%20well-lit%20space.%20The%20environment%20features%20bookshelves%20with%20childrens%20books%2C%20art%20supplies%2C%20and%20comfortable%20seating%20areas.%20Natural%20lighting%20and%20contemporary%20Japanese%20interior%20design%20elements.&width=600&height=400&seq=21&orientation=landscape" alt="親子の時間研究所の活動" class="w-full rounded-lg shadow-lg">
+</div>
+</div>
+</div>
+</section>
+<!-- おかいものセクション -->
+<section class="py-16">
+<div class="container mx-auto px-4">
+<div class="flex justify-between items-center mb-8">
+<h2 class="text-3xl font-bold">おかいもの</h2>
+<a href="#" class="text-primary font-medium flex items-center">
+商品一覧へ
+<div class="w-5 h-5 flex items-center justify-center ml-1">
+<i class="ri-arrow-right-line"></i>
+</div>
+</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+<a href="https://shop.oyakonojikanlabo.jp/products/4560453177828" data-readdy="true">
+<img src="https://static.readdy.ai/image/60a8b97af392af7bc8fe2dab5eed4ff2/039840db66e0b48510d5918393f62451.jpeg" alt="絵本の靴下" class="w-full h-64 object-cover object-center">
+</a>
+<div class="p-4">
+<span class="inline-block bg-yellow-100 text-yellow-800 px-3 py-1 text-xs rounded-full mb-2">新商品</span>
+<h3 class="text-lg font-bold mb-2">もりのともだち キッズソックス</h3>
+<p class="text-gray-700 font-bold mb-3">¥1,200</p>
+<a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/c7c04cda-fba6-49f6-b189-1a8edc10aa8f" data-readdy="true" class="block">
+<button class="w-full bg-primary text-white py-2 font-medium !rounded-button whitespace-nowrap">商品詳細</button>
+</a>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+<a href="https://shop.oyakonojikanlabo.jp/products/4560453185571?pr_prod_strat=jac&pr_rec_id=2d895c1b9&pr_rec_pid=7579468988668&pr_ref_pid=8982715924732&pr_seq=uniform" data-readdy="true">
+<img src="https://static.readdy.ai/image/60a8b97af392af7bc8fe2dab5eed4ff2/1f4ea3b18144ce790c07c76e60afc568.jpeg" alt="絵本" class="w-full h-64 object-cover object-center">
+</a>
+<div class="p-4">
+<span class="inline-block bg-blue-100 text-blue-800 px-3 py-1 text-xs rounded-full mb-2">人気商品</span>
+<h3 class="text-lg font-bold mb-2">おやすみ、ぞうさん（サイン入り）</h3>
+<p class="text-gray-700 font-bold mb-3">¥1,650</p>
+<a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/c7c04cda-fba6-49f6-b189-1a8edc10aa8f" data-readdy="true" class="block">
+<button class="w-full bg-primary text-white py-2 font-medium !rounded-button whitespace-nowrap">商品詳細</button>
+</a>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=A%20framed%20illustration%20from%20a%20childrens%20book%2C%20showing%20a%20beautiful%20artwork%20suitable%20for%20a%20childs%20room.%20The%20frame%20should%20be%20simple%20and%20elegant%2C%20and%20the%20image%20should%20be%20photographed%20against%20a%20clean%20background.&width=300&height=300&seq=13&orientation=squarish" alt="原画" class="w-full h-64 object-cover object-center">
+<div class="p-4">
+<span class="inline-block bg-purple-100 text-purple-800 px-3 py-1 text-xs rounded-full mb-2">限定品</span>
+<h3 class="text-lg font-bold mb-2">「森のどうぶつたち」原画プリント</h3>
+<p class="text-gray-700 font-bold mb-3">¥8,800</p>
+<a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/c7c04cda-fba6-49f6-b189-1a8edc10aa8f" data-readdy="true" class="block">
+<button class="w-full bg-primary text-white py-2 font-medium !rounded-button whitespace-nowrap">商品詳細</button>
+</a>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=A%20wooden%20educational%20toy%20for%20children%2C%20such%20as%20alphabet%20blocks%20or%20a%20puzzle%2C%20photographed%20on%20a%20clean%20white%20background.%20The%20toy%20should%20look%20high-quality%20and%20designed%20for%20learning%20through%20play.&width=300&height=300&seq=14&orientation=squarish" alt="知育玩具" class="w-full h-64 object-cover object-center">
+<div class="p-4">
+<span class="inline-block bg-green-100 text-green-800 px-3 py-1 text-xs rounded-full mb-2">おすすめ</span>
+<h3 class="text-lg font-bold mb-2">木製 ひらがなブロック 50ピース</h3>
+<p class="text-gray-700 font-bold mb-3">¥3,980</p>
+<a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/c7c04cda-fba6-49f6-b189-1a8edc10aa8f" data-readdy="true" class="block">
+<button class="w-full bg-primary text-white py-2 font-medium !rounded-button whitespace-nowrap">商品詳細</button>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 豊中PICOバナー -->
+<section class="py-12 bg-gray-50">
+<div class="container mx-auto px-4">
+<div class="bg-white rounded-lg shadow-lg overflow-hidden">
+<div class="flex flex-col sm:flex-row">
+<div class="w-full sm:w-1/2">
+<img src="https://static.readdy.ai/image/60a8b97af392af7bc8fe2dab5eed4ff2/4d75a49af6fc29ff5c1b0b5c783a3be8.jpeg" alt="豊中PICO" class="w-full h-full object-cover object-top">
+</div>
+<div class="w-full sm:w-1/2 p-8 flex flex-col justify-center">
+<h2 class="text-3xl font-bold mb-4">PICO豊中</h2>
+<p class="text-lg text-gray-600 mb-6">大阪豊中市の直営店です。絵本や絵本グッズの販売に加え、読み聞かせや作家との交流イベント、アート原画の展示も開催。親子はもちろん、大人の方だけでもゆっくり楽しめる空間です。</p>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="flex items-start">
+<div class="w-6 h-6 flex items-center justify-center mr-2 text-primary">
+<i class="ri-book-open-line"></i>
+</div>
+<div>
+<h3 class="font-bold mb-1">絵本サロン＆カフェ</h3>
+<p class="text-sm text-gray-600">1,000冊以上の絵本が並ぶ専門書店</p>
+</div>
+</div>
+<div class="flex items-start">
+<div class="w-6 h-6 flex items-center justify-center mr-2 text-primary">
+<i class="ri-palette-line"></i>
+</div>
+<div>
+<h3 class="font-bold mb-1">キッズスクール</h3>
+<p class="text-sm text-gray-600">創造性を育む子ども向けプログラム</p>
+</div>
+</div>
+<div class="flex items-start">
+<div class="w-6 h-6 flex items-center justify-center mr-2 text-primary">
+<i class="ri-cup-line"></i>
+</div>
+<div>
+<h3 class="font-bold mb-1">カルチャースクール</h3>
+<p class="text-sm text-gray-600">大人もPICO！地域密着型カルチャースクール。</p>
+</div>
+</div>
+<div class="flex items-start">
+<div class="w-6 h-6 flex items-center justify-center mr-2 text-primary">
+<i class="ri-store-line"></i>
+</div>
+<div>
+<h3 class="font-bold mb-1">レンタルスペース</h3>
+<p class="text-sm text-gray-600">イベントや教室に利用可能な空間</p>
+</div>
+</div>
+</div>
+<a href="https://" data-readdy="true" class="bg-primary text-white px-6 py-3 font-medium self-start !rounded-button whitespace-nowrap inline-block">詳しく見る</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- PICOイベント -->
+<section class="py-16 bg-white">
+<div class="container mx-auto px-4">
+<div class="flex items-center gap-3 mb-8">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-store-2-line text-2xl text-primary"></i>
+</div>
+<h2 class="text-3xl font-bold">PICOイベント</h2>
+</div>
+<p class="text-gray-600 mb-12">直営店PICOが企画・運営するイベント情報！</p>
+<div class="bg-orange-50 rounded-lg p-8">
+<div class="flex justify-between items-start mb-4">
+<img src="https://public.readdy.ai/ai/img_res/4597b7b6-0a80-4b78-9762-15f8d7532fe9.png" alt="PICO豊中" class="h-16">
+</div>
+<p class="text-gray-600 mb-8">豊中市にある絵本とアートの複合施設。絵本の販売、展示会、ワークショップなど、様々な文化イベントを開催しています。</p>
+<div class="grid grid-cols-1 min-[600px]:grid-cols-2 lg:grid-cols-3 gap-6 [&>*:last-child]:min-[600px]:col-span-2 [&>*:last-child]:lg:col-span-1">
+<a href="#" class="block group">
+<div class="bg-white rounded-lg overflow-hidden shadow-sm transition-transform duration-300 hover:-translate-y-1">
+<img src="https://static.readdy.ai/image/60a8b97af392af7bc8fe2dab5eed4ff2/30e5f268453d5644679393e8b3b473c7.jpeg" alt="谷川俊太郎さん、ありがとう。" class="w-full h-64 object-cover object-top">
+<div class="p-6">
+<h4 class="text-lg font-bold mb-3">たなかしん作品展【守りたいもの】</h4>
+<span class="inline-block bg-yellow-100 text-yellow-800 px-3 py-1 text-sm rounded-full mb-4">開催中</span>
+<div class="space-y-2 text-gray-600">
+<div class="flex items-center">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-calendar-line"></i>
+</div>
+<span>2025年05月30日 〜 07月13日</span>
+</div>
+</div>
+</div>
+</div>
+</a>
+<a href="#" class="block group">
+<div class="bg-white rounded-lg overflow-hidden shadow-sm transition-transform duration-300 hover:-translate-y-1">
+<img src="https://static.readdy.ai/image/60a8b97af392af7bc8fe2dab5eed4ff2/bf36d3a66d2c4495d815daab6a95c131.png" alt="ひびのこえ展覧会 2025" class="w-full h-64 object-cover object-top">
+<div class="p-6">
+<h4 class="text-lg font-bold mb-3">ひびのこえ展覧会 2025</h4>
+<span class="inline-block bg-yellow-100 text-yellow-800 px-3 py-1 text-sm rounded-full mb-4">開催中</span>
+<div class="space-y-2 text-gray-600">
+<div class="flex items-center">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-calendar-line"></i>
+</div>
+<span>2025年06月06日 〜 06月22日</span>
+</div>
+</div>
+</div>
+</div>
+</a>
+<a href="#" class="block group">
+<div class="bg-white rounded-lg overflow-hidden shadow-sm transition-transform duration-300 hover:-translate-y-1">
+<img src="https://static.readdy.ai/image/60a8b97af392af7bc8fe2dab5eed4ff2/c745886ed760cdcb14b3e397f0746449.png" alt="蓮尾佳由 個展" class="w-full h-64 object-cover object-top">
+<div class="p-6">
+<h4 class="text-lg font-bold mb-3">蓮尾佳由 個展</h4>
+<span class="inline-block bg-yellow-100 text-yellow-800 px-3 py-1 text-sm rounded-full mb-4">開催中</span>
+<div class="space-y-2 text-gray-600">
+<div class="flex items-center">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-calendar-line"></i>
+</div>
+<span>2025年06月06日 〜 06月25日</span>
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="flex justify-center mt-8">
+<a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/a72cea04-19cf-408c-9717-ee31ecb57153" data-readdy="true" class="inline-flex items-center text-primary hover:text-primary/80">
+PICOでのイベントを見る
+<i class="ri-arrow-right-line ml-2"></i>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- コラボレーションバナー -->
+<section class="py-16 bg-gray-50">
+<div class="container mx-auto px-4">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- バナー1 -->
+<div class="relative overflow-hidden rounded-lg shadow-lg group h-[400px] md:h-64">
+<div class="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/70 z-10"></div>
+<img src="https://readdy.ai/api/search-image?query=A%20dreamy%20and%20artistic%20scene%20of%20a%20Japanese%20illustrator%20working%20in%20a%20modern%20studio%20with%20traditional%20elements%2C%20soft%20natural%20lighting%2C%20and%20creative%20atmosphere.%20The%20composition%20shows%20both%20traditional%20art%20materials%20and%20digital%20tools%2C%20with%20a%20warm%20color%20palette%20and%20professional%20setting.&width=800&height=400&seq=19&orientation=landscape" alt="イラストレーターコラボ" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500">
+<div class="absolute inset-0 z-20 p-6 flex flex-col justify-between">
+<div>
+<span class="inline-block bg-white/90 text-primary px-3 py-1 text-sm rounded-full mb-3">コラボレーション</span>
+<h3 class="text-2xl font-bold text-white mb-2">佐々木彩子の世界展</h3>
+<p class="text-white/90">人気イラストレーターとのスペシャルコラボレーション。限定グッズや直筆サイン会も開催。</p>
+</div>
+<button class="bg-white text-primary px-6 py-2 !rounded-button whitespace-nowrap self-start hover:bg-yellow-300 hover:text-white transition-all duration-300">詳しく見る</button>
+</div>
+</div>
+<!-- バナー2 -->
+<div class="relative overflow-hidden rounded-lg shadow-lg group h-[400px] md:h-64">
+<div class="absolute inset-0 bg-gradient-to-r from-secondary/90 to-secondary/70 z-10"></div>
+<img src="https://readdy.ai/api/search-image?query=A%20cozy%20and%20inviting%20scene%20of%20a%20childrens%20book%20author%20reading%20to%20a%20group%20of%20children%20in%20a%20modern%20library%20setting.%20The%20space%20features%20contemporary%20design%20with%20warm%20lighting%2C%20comfortable%20seating%2C%20and%20bookshelves.%20The%20atmosphere%20is%20engaging%20and%20interactive.&width=800&height=400&seq=20&orientation=landscape" alt="作家コラボ" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500">
+<div class="absolute inset-0 z-20 p-6 flex flex-col justify-between">
+<div>
+<span class="inline-block bg-white/90 text-secondary px-3 py-1 text-sm rounded-full mb-3">特別企画</span>
+<h3 class="text-2xl font-bold text-white mb-2">絵本作家 中村至男と描く</h3>
+<p class="text-white/90">ベストセラー作家による特別ワークショップ。子どもたちと一緒に物語を作り上げます。</p>
+</div>
+<button class="bg-white text-secondary px-6 py-2 !rounded-button whitespace-nowrap self-start hover:bg-primary hover:text-white transition-all duration-300">詳しくみる</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- フッター -->
+<footer class="bg-gray-800 text-white py-12">
+<div class="container mx-auto px-4">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+<div>
+<h3 class="mb-4">
+<img src="https://public.readdy.ai/ai/img_res/35857e6b-21d5-41ce-9f29-aa2ddfa06fc3.png" alt="親子の時間研究所" class="h-12 w-auto">
+</h3>
+<p class="text-gray-400 mb-4">創造性と感性を育むライフスタイルメディア</p>
+<div class="flex space-x-4">
+<a href="#" class="text-gray-400 hover:text-white">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-twitter-x-line ri-lg"></i>
+</div>
+</a>
+<a href="#" class="text-gray-400 hover:text-white">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-instagram-line ri-lg"></i>
+</div>
+</a>
+<a href="#" class="text-gray-400 hover:text-white">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-facebook-circle-line ri-lg"></i>
+</div>
+</a>
+<a href="#" class="text-gray-400 hover:text-white">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-youtube-line ri-lg"></i>
+</div>
+</a>
+</div>
+</div>
+<div>
+<h3 class="font-bold text-lg mb-4">コンテンツ</h3>
+<ul class="space-y-2">
+<li><a href="#" class="text-gray-400 hover:text-white">おかいもの</a></li>
+<li><a href="https://ehonyasan-moe.oyakonojikanlabo.jp/socks/" data-readdy="true" class="text-gray-400 hover:text-white">絵本の靴下</a></li>
+<li><a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/a0ecee2c-20f1-44ea-8d28-c9ad8978b25e" data-readdy="true" class="text-gray-400 hover:text-white">イベント</a></li>
+<li><a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/50b78e59-8ce3-4898-baf4-9107f5363e05" data-readdy="true" class="text-gray-400 hover:text-white">親子の時間研究所とは？</a></li>
+</ul>
+</div>
+<div>
+<h3 class="font-bold text-lg mb-4">豊中PICO</h3>
+<ul class="space-y-2">
+<li><a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/a72cea04-19cf-408c-9717-ee31ecb57153" data-readdy="true" class="text-gray-400 hover:text-white">絵本サロン</a></li>
+<li><a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/a72cea04-19cf-408c-9717-ee31ecb57153" data-readdy="true" class="text-gray-400 hover:text-white">キッズスクール</a></li>
+<li><a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/a72cea04-19cf-408c-9717-ee31ecb57153" data-readdy="true" class="text-gray-400 hover:text-white">カルチャースクール</a></li>
+<li><a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/a72cea04-19cf-408c-9717-ee31ecb57153" data-readdy="true" class="text-gray-400 hover:text-white">レンタルスペース</a></li>
+<li><a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/a72cea04-19cf-408c-9717-ee31ecb57153" data-readdy="true" class="text-gray-400 hover:text-white">アクセス</a></li>
+</ul>
+</div>
+<div>
+<h3 class="font-bold text-lg mb-4">企業情報</h3>
+<ul class="space-y-2">
+<li><a href="" data-readdy="true" class="text-gray-400 hover:text-white">会社概要</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white">プライバシーポリシー</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white">特定商取引法に基づく表記</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white">お問い合わせ</a></li>
+</ul>
+</div>
+</div>
+<div class="border-t border-gray-700 pt-8 text-center text-gray-500">
+<p>&copy; 2025 親子の時間研究所 All Rights Reserved.</p>
+</div>
+</div>
+</footer>
+<script id="headerManager">
+function loadHeader() {
+const headerHTML = `
+<header class="bg-primary text-white fixed top-0 left-0 right-0 z-50 shadow-md">
+<div class="container mx-auto px-4">
+<div class="py-3 flex justify-between items-center">
+<div class="w-24"></div>
+<h1 class="flex justify-center">
+<a href="/">
+<img src="https://public.readdy.ai/ai/img_res/f99757ef-08c3-43d5-b778-d956445f2972.png" alt="親子の時間研究所" class="h-8 w-auto">
+</a>
+</h1>
+<div class="flex items-center space-x-4">
+<div class="relative">
+<button id="searchToggle" class="w-8 h-8 flex items-center justify-center text-white hover:text-gray-200">
+<i class="ri-search-line ri-lg"></i>
+</button>
+<div id="searchPanel" class="hidden absolute right-0 top-12 w-80 bg-white rounded-lg shadow-lg p-4">
+<div class="relative">
+<input type="text" id="searchInput" placeholder="キーワードを入力" class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-primary/20">
+<div class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 flex items-center justify-center text-gray-400">
+<i class="ri-search-line"></i>
+</div>
+</div>
+<div id="searchResults" class="mt-4 max-h-80 overflow-y-auto hidden">
+<div class="space-y-4">
+<div class="border-b pb-2">
+<h4 class="text-sm font-medium text-gray-900 mb-1">カテゴリー</h4>
+<div class="flex flex-wrap gap-2">
+<button class="px-3 py-1 bg-gray-100 text-sm rounded-full hover:bg-primary hover:text-white">絵本</button>
+<button class="px-3 py-1 bg-gray-100 text-sm rounded-full hover:bg-primary hover:text-white">イベント</button>
+<button class="px-3 py-1 bg-gray-100 text-sm rounded-full hover:bg-primary hover:text-white">インタビュー</button>
+</div>
+</div>
+<div class="space-y-3">
+<h4 class="text-sm font-medium text-gray-900">検索結果</h4>
+<div id="searchResultsList"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-user-line ri-lg"></i>
+</div>
+</div>
+</div>
+<nav class="flex justify-center space-x-6 sm:space-x-12 py-3">
+<a href="https://shop.oyakonojikanlabo.jp/" data-readdy="true" class="text-white hover:text-gray-200 font-medium text-sm tracking-tighter whitespace-nowrap px-2">おかいもの</a>
+<a href="https://ehonyasan-moe.oyakonojikanlabo.jp/socks/" data-readdy="true" class="text-white hover:text-gray-200 font-medium text-sm tracking-tighter whitespace-nowrap px-2">絵本の靴下</a>
+<a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/a0ecee2c-20f1-44ea-8d28-c9ad8978b25e" data-readdy="true" class="text-white hover:text-gray-200 font-medium text-sm tracking-tighter whitespace-nowrap px-2">イベント</a>
+<a href="https://readdy.ai/home/a53999be-6831-42a7-9fde-0447fdc57a4e/a72cea04-19cf-408c-9717-ee31ecb57153" data-readdy="true" class="text-white hover:text-gray-200 font-medium text-sm tracking-tighter whitespace-nowrap px-2">PICO豊中</a>
+</nav>
+</div>
+</header>`;
+document.body.insertAdjacentHTML('afterbegin', headerHTML);
+const header = document.querySelector('header');
+const mainContent = document.querySelector('section');
+if (mainContent) {
+mainContent.style.paddingTop = header.offsetHeight + 'px';
+}
+window.addEventListener('scroll', function() {
+if (window.scrollY > 0) {
+header.classList.add('shadow-lg');
+} else {
+header.classList.remove('shadow-lg');
+}
+});
+const searchToggle = document.getElementById('searchToggle');
+const searchPanel = document.getElementById('searchPanel');
+const searchInput = document.getElementById('searchInput');
+const searchResults = document.getElementById('searchResults');
+const searchResultsList = document.getElementById('searchResultsList');
+const sampleResults = [
+{title: 'ヨシタケシンスケさんとのミニトーク', type: 'イベント', date: '2025-06-19'},
+{title: '絵本作家 佐藤まりこさんインタビュー', type: '記事', date: '2025-06-05'},
+{title: '「もりのともだち」シリーズ特集', type: '特集', date: '2025-06-10'},
+{title: '夏休み親子ワークショップ', type: 'イベント', date: '2025-07-01'},
+{title: '2025年上半期 注目の新刊絵本5選', type: 'レビュー', date: '2025-06-10'}
+];
+function toggleSearch() {
+searchPanel.classList.toggle('hidden');
+if (!searchPanel.classList.contains('hidden')) {
+searchInput.focus();
+}
+}
+function handleSearch(query) {
+if (query.length > 0) {
+searchResults.classList.remove('hidden');
+const filteredResults = sampleResults.filter(result =>
+result.title.toLowerCase().includes(query.toLowerCase()) ||
+result.type.toLowerCase().includes(query.toLowerCase())
+);
+displayResults(filteredResults);
+} else {
+searchResults.classList.add('hidden');
+}
+}
+function displayResults(results) {
+searchResultsList.innerHTML = results.length > 0 ? results.map(result => `
+<a href="#" class="block p-3 hover:bg-gray-50 rounded-lg">
+<div class="flex items-center justify-between">
+<div>
+<h5 class="text-sm font-medium text-gray-900">${result.title}</h5>
+<div class="flex items-center gap-2 mt-1">
+<span class="text-xs text-gray-500">${result.type}</span>
+<span class="text-xs text-gray-400">${result.date}</span>
+</div>
+</div>
+<div class="w-5 h-5 flex items-center justify-center text-gray-400">
+<i class="ri-arrow-right-line"></i>
+</div>
+</div>
+</a>
+`).join('') : '<p class="text-sm text-gray-500 p-3">検索結果が見つかりませんでした</p>';
+}
+searchToggle.addEventListener('click', toggleSearch);
+searchInput.addEventListener('input', (e) => handleSearch(e.target.value));
+document.addEventListener('click', (e) => {
+if (!searchPanel.contains(e.target) && !searchToggle.contains(e.target)) {
+searchPanel.classList.add('hidden');
+}
+});
+}
+document.addEventListener('DOMContentLoaded', function() {
+loadHeader();
+// Rest of your existing header functionality
+const header = document.querySelector('header');
+const mainContent = document.querySelector('section');
+if (mainContent) {
+mainContent.style.paddingTop = header.offsetHeight + 'px';
+}
+// ... rest of your existing code
+});
+</script>
+<script id="reservationModal">
+document.addEventListener('DOMContentLoaded', function() {
+const modal = document.getElementById('reservationModal');
+const openBtn = document.getElementById('reservationBtn');
+const closeBtn = document.getElementById('closeModal');
+const cancelBtn = document.getElementById('cancelReservation');
+const form = document.getElementById('reservationForm');
+if (!modal || !openBtn || !closeBtn || !cancelBtn || !form) {
+return;
+}
+function openModal() {
+modal.classList.remove('hidden');
+document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+modal.classList.add('hidden');
+document.body.style.overflow = '';
+}
+openBtn.addEventListener('click', openModal);
+closeBtn.addEventListener('click', closeModal);
+cancelBtn.addEventListener('click', closeModal);
+modal.addEventListener('click', function(e) {
+if (e.target === modal) {
+closeModal();
+}
+});
+form.addEventListener('submit', function(e) {
+e.preventDefault();
+const formData = new FormData(form);
+const data = Object.fromEntries(formData);
+if (!data.privacy) {
+const dialog = document.createElement('div');
+dialog.className = 'fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center';
+dialog.innerHTML = `
+<div class="bg-white rounded-lg p-6 max-w-sm mx-4 w-full">
+<p class="text-center mb-4">プライバシーポリシーに同意してください</p>
+<button class="w-full bg-primary text-white py-2 !rounded-button whitespace-nowrap">確認</button>
+</div>
+`;
+document.body.appendChild(dialog);
+dialog.querySelector('button').addEventListener('click', function() {
+dialog.remove();
+});
+return;
+}
+const confirmDialog = document.createElement('div');
+confirmDialog.className = 'fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center';
+confirmDialog.innerHTML = `
+<div class="bg-white rounded-lg p-6 max-w-sm mx-4 w-full">
+<p class="text-center mb-4">予約を受け付けました</p>
+<p class="text-sm text-gray-600 text-center mb-6">ご登録いただいたメールアドレスに確認メールをお送りしました</p>
+<button class="w-full bg-primary text-white py-2 !rounded-button whitespace-nowrap">閉じる</button>
+</div>
+`;
+document.body.appendChild(confirmDialog);
+confirmDialog.querySelector('button').addEventListener('click', function() {
+confirmDialog.remove();
+closeModal();
+form.reset();
+});
+});
+});
+</script>
+</body>
+</html>
