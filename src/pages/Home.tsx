@@ -1,8 +1,27 @@
-import React, { useState } from 'react';
-import { fetchGraphQL } from '@/lib/graphql';
-import { DefaultLayout } from '@/layouts/DefaultLayout';
-import { GET_LATEST_POSTS } from '@/lib/queries/getLatestPosts';
-import { ArticleCard } from '@/components/ui/ArticleCard';
+import React, { useState, useEffect } from 'react';
+import { fetchGraphQL } from '../lib/graphql';
+import { GET_LATEST_POSTS } from '../lib/queries/getLatestPosts';
+import { DefaultLayout } from '../layouts/DefaultLayout';
+import { ArticleCard } from '../components/ui/ArticleCard';
+
+interface Post {
+  id: string;
+  title: string;
+  date: string;
+  excerpt: string;
+  uri: string;
+  featuredImage: {
+    node: {
+      sourceUrl: string;
+      altText: string;
+    }
+  };
+  categories: {
+    nodes: Array<{
+      name: string;
+    }>
+  };
+}
 
 export const Home: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -14,6 +33,84 @@ export const Home: React.FC = () => {
     childCount: '1',
     privacy: false
   });
+  const [articles, setArticles] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchGraphQL(GET_LATEST_POSTS);
+        
+        if (data && data.posts && data.posts.nodes) {
+          const formattedArticles = data.posts.nodes.map((post: Post) => ({
+            id: post.id,
+            title: post.title,
+            date: new Date(post.date).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' }),
+            description: post.excerpt.replace(/<[^>]*>/g, ''), // Remove HTML tags
+            image: post.featuredImage?.node?.sourceUrl || 'https://readdy.ai/api/search-image?query=A%20cozy%20reading%20corner%20with%20bookshelves%20filled%20with%20childrens%20books%2C%20comfortable%20seating%2C%20and%20soft%20lighting.%20The%20space%20should%20look%20inviting%20and%20perfect%20for%20parent-child%20reading%20time.&width=400&height=250&seq=5&orientation=landscape',
+            category: { 
+              name: post.categories?.nodes[0]?.name || 'コラム', 
+              color: getCategoryColor(post.categories?.nodes[0]?.name) 
+            },
+          }));
+          
+          setArticles(formattedArticles);
+        }
+      } catch (err) {
+        console.error('Error fetching posts:', err);
+        setError('記事の取得に失敗しました。');
+        // Fallback to default articles if fetch fails
+        setArticles([
+          {
+            id: '1',
+            title: '絵本作家 佐藤まりこさん',
+            date: '2025年6月5日',
+            description: '人気シリーズ「もりのともだち」の作者が語る、創作の秘密と子どもたちへのメッセージ。',
+            image: 'https://readdy.ai/api/search-image?query=A%20cozy%20reading%20corner%20with%20bookshelves%20filled%20with%20childrens%20books%2C%20comfortable%20seating%2C%20and%20soft%20lighting.%20The%20space%20should%20look%20inviting%20and%20perfect%20for%20parent-child%20reading%20time.&width=400&height=250&seq=5&orientation=landscape',
+            category: { name: 'インタビュー', color: 'purple' },
+            tags: [{ name: '特集', color: 'yellow' }],
+          },
+          {
+            id: '2',
+            title: '寝る前の読み聞かせが子どもに与える影響',
+            date: '2025年6月8日',
+            description: '発達心理学の観点から見る、就寝前の読み聞かせの重要性と効果的な方法について解説します。',
+            image: 'https://readdy.ai/api/search-image?query=A%20parent%20reading%20a%20book%20with%20a%20child%2C%20both%20looking%20engaged%20and%20happy.%20The%20scene%20should%20be%20warm%20and%20intimate%2C%20showing%20the%20special%20bond%20created%20during%20reading%20time.%20Natural%20lighting%20and%20comfortable%20home%20setting.&width=400&height=250&seq=6&orientation=landscape',
+            category: { name: 'コラム', color: 'blue' },
+          },
+          {
+            id: '3',
+            title: '2025年上半期 注目の新刊絵本5選',
+            date: '2025年6月10日',
+            description: '今年前半に出版された絵本の中から、特に評価の高い作品をピックアップしてレビューします。',
+            image: 'https://readdy.ai/api/search-image?query=A%20collection%20of%20new%20childrens%20books%20arranged%20attractively%2C%20showing%20their%20colorful%20covers.%20The%20image%20should%20look%20like%20a%20curated%20selection%20of%20recent%20publications%2C%20professionally%20photographed%20with%20good%20lighting.&width=400&height=250&seq=7&orientation=landscape',
+            category: { name: 'レビュー', color: 'green' },
+          },
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  // Helper function to determine category color
+  const getCategoryColor = (categoryName: string | undefined): string => {
+    if (!categoryName) return 'blue';
+    
+    const categoryColors: Record<string, string> = {
+      'インタビュー': 'purple',
+      'コラム': 'blue',
+      'レビュー': 'green',
+      '特集': 'yellow',
+      'イベント': 'red',
+    };
+    
+    return categoryColors[categoryName] || 'blue';
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,35 +130,6 @@ export const Home: React.FC = () => {
     });
   };
 
-
-  
-  const articles = [
-  {
-    id: '1',
-    title: '絵本作家 佐藤まりこさん',
-    date: '2025年6月5日',
-    description: '人気シリーズ「もりのともだち」の作者が語る、創作の秘密と子どもたちへのメッセージ。',
-    image: 'https://readdy.ai/api/search-image?query=A%20cozy%20reading%20corner%20with%20bookshelves%20filled%20with%20childrens%20books%2C%20comfortable%20seating%2C%20and%20soft%20lighting.%20The%20space%20should%20look%20inviting%20and%20perfect%20for%20parent-child%20reading%20time.&width=400&height=250&seq=5&orientation=landscape',
-    category: { name: 'インタビュー', color: 'purple' },
-    tags: [{ name: '特集', color: 'yellow' }],
-  },
-  {
-    id: '2',
-    title: '寝る前の読み聞かせが子どもに与える影響',
-    date: '2025年6月8日',
-    description: '発達心理学の観点から見る、就寝前の読み聞かせの重要性と効果的な方法について解説します。',
-    image: 'https://readdy.ai/api/search-image?query=A%20parent%20reading%20a%20book%20with%20a%20child%2C%20both%20looking%20engaged%20and%20happy.%20The%20scene%20should%20be%20warm%20and%20intimate%2C%20showing%20the%20special%20bond%20created%20during%20reading%20time.%20Natural%20lighting%20and%20comfortable%20home%20setting.&width=400&height=250&seq=6&orientation=landscape',
-    category: { name: 'コラム', color: 'blue' },
-  },
-  {
-    id: '3',
-    title: '2025年上半期 注目の新刊絵本5選',
-    date: '2025年6月10日',
-    description: '今年前半に出版された絵本の中から、特に評価の高い作品をピックアップしてレビューします。',
-    image: 'https://readdy.ai/api/search-image?query=A%20collection%20of%20new%20childrens%20books%20arranged%20attractively%2C%20showing%20their%20colorful%20covers.%20The%20image%20should%20look%20like%20a%20curated%20selection%20of%20recent%20publications%2C%20professionally%20photographed%20with%20good%20lighting.&width=400&height=250&seq=7&orientation=landscape',
-    category: { name: 'レビュー', color: 'green' },
-  },
-];
   return (
     <DefaultLayout>
       {/* メインビジュアル */}
@@ -163,24 +231,34 @@ export const Home: React.FC = () => {
 
       {/* よみものセクション */}
       <section className="py-16">
-  <div className="container mx-auto px-4">
-    <div className="flex justify-between items-center mb-8">
-      <h2 className="text-3xl font-bold">記事一覧</h2>
-      <a href="#" className="text-primary font-medium flex items-center">
-        すべて見る
-        <div className="w-5 h-5 flex items-center justify-center ml-1">
-          <i className="ri-arrow-right-line"></i>
-        </div>
-      </a>
-    </div>
+        <div className="container mx-auto px-4">
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="text-3xl font-bold">記事一覧</h2>
+            <a href="#" className="text-primary font-medium flex items-center">
+              すべて見る
+              <div className="w-5 h-5 flex items-center justify-center ml-1">
+                <i className="ri-arrow-right-line"></i>
+              </div>
+            </a>
+          </div>
 
-    <div className="grid grid-cols-1 min-[600px]:grid-cols-2 lg:grid-cols-3 gap-8 auto-rows-fr">
-      {articles.map((article) => (
-        <ArticleCard key={article.id} {...article} />
-      ))}
-    </div>
-  </div>
-</section>
+          {loading ? (
+            <div className="flex justify-center items-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+            </div>
+          ) : error ? (
+            <div className="bg-red-50 text-red-800 p-4 rounded-lg text-center">
+              {error}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 min-[600px]:grid-cols-2 lg:grid-cols-3 gap-8 auto-rows-fr">
+              {articles.map((article) => (
+                <ArticleCard key={article.id} {...article} />
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
 
       {/* イベントセクション */}
       <section className="py-16 bg-gray-50">
