@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { fetchGraphQL } from '../lib/graphql';
-import { GET_LATEST_POSTS } from '../lib/queries/getLatestPosts';
-import { DefaultLayout } from '../layouts/DefaultLayout';
-import { ArticleCard } from '../components/ui/ArticleCard';
+import { fetchGraphQL } from '@/lib/graphql';
+import { GET_LATEST_POSTS } from '@/lib/queries/getLatestPosts';
+import { DefaultLayout } from '@/layouts/DefaultLayout';
+import { ArticleCard } from '@/components/ui/ArticleCard';
 
 interface Tag {
   name: string;

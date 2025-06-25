@@ -1,15 +1,15 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Home } from './pages/Home';
-import { Events } from './pages/Events';
-import { EventDetail } from './pages/EventDetail';
-import { ArticleDetail } from './pages/ArticleDetail';
-import { Pico } from './pages/Pico';
-import { ProductDetail } from './pages/ProductDetail';
-import { CompanyProfile } from './pages/CompanyProfile';
-import { YogaCourse } from './pages/YogaCourse';
-import { CultureSchool } from './pages/CultureSchool';
-import { PicoTop } from './pages/PicoTop';
+import { Home } from '@/pages/Home';
+import { Events } from '@/pages/Events';
+import { EventDetail } from '@/pages/EventDetail';
+import { ArticleDetail } from '@/pages/ArticleDetail';
+import { Pico } from '@/pages/Pico';
+import { ProductDetail } from '@/pages/ProductDetail';
+import { CompanyProfile } from '@/pages/CompanyProfile';
+import { YogaCourse } from '@/pages/YogaCourse';
+import { CultureSchool } from '@/pages/CultureSchool';
+import { PicoTop } from '@/pages/PicoTop';
 
 export const Router: React.FC = () => {
   return (

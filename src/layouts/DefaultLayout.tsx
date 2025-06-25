@@ -1,7 +1,7 @@
 import React from 'react';
-import { Header } from '../components/common/Header';
-import { Footer } from '../components/common/Footer';
-import { ThemeKey } from '../theme';
+import { Header } from '@/components/common/Header';
+import { Footer } from '@/components/common/Footer';
+import { ThemeKey } from '@/theme';
 
 interface DefaultLayoutProps {
   children: React.ReactNode;
